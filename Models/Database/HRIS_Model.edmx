@@ -1,0 +1,1213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DatabaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ContactData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Number" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="254" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DurationInHours" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="smallmoney" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="64" />
+          <Property Name="PositionId" Type="int" Nullable="false" />
+          <Property Name="DepatmentId" Type="int" Nullable="false" />
+          <Property Name="ContactDataId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeesCourses">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employment">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="PositionId" Type="int" Nullable="false" />
+          <Property Name="DepatmentId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Moving">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="PreviousPosition" Type="int" Nullable="false" />
+          <Property Name="NewPosition" Type="int" Nullable="false" />
+          <Property Name="PreviousDepartment" Type="int" Nullable="false" />
+          <Property Name="NewDepartment" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Response">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VacancyId" Type="int" Nullable="false" />
+          <Property Name="ContactDataId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Salary">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Wage" Type="smallmoney" Nullable="false" />
+          <Property Name="Bonus" Type="smallmoney" Nullable="false" />
+          <Property Name="Deduction" Type="smallmoney" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Termination">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vacancy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionId" Type="int" Nullable="false" />
+          <Property Name="Conditions" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Responsibilities" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Requirements" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Other" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Vacation">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="StardDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkHours">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Hours" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EC_EmployeeId_Course_Id">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EmployeesCourses" Type="Self.EmployeesCourses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeesCourses">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EC_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EmployeesCourses" Type="Self.EmployeesCourses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeesCourses">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_ContactDataId_ContactData_Id">
+          <End Role="ContactData" Type="Self.ContactData" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ContactDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_DepartmentId_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_PositionId_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employment_DepartmentId_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Employment" Type="Self.Employment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employment">
+              <PropertyRef Name="DepatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employment_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employment" Type="Self.Employment" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employment">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employment_PositionId_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Employment" Type="Self.Employment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employment">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Moving" Type="Self.Moving" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_NewDepartment_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="NewDepartment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_NewPosition_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="NewPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_PreviousDepartment_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="PreviousDepartment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_PreviousPosition_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="PreviousPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_ContactDataId_ContactData_Id">
+          <End Role="ContactData" Type="Self.ContactData" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Response" Type="Self.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Response">
+              <PropertyRef Name="ContactDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_VacancyId_Vacancy_Id">
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Response" Type="Self.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Response">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Salary_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Salary" Type="Self.Salary" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Salary">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termination_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termination" Type="Self.Termination" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termination">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacancy_PositionId_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancy">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacation_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vacation" Type="Self.Vacation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacation">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkHours_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkHours" Type="Self.WorkHours" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkHours">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище DatabaseModelContainer">
+          <EntitySet Name="ContactData" EntityType="Self.ContactData" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="EmployeesCourses" EntityType="Self.EmployeesCourses" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Employment" EntityType="Self.Employment" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Moving" EntityType="Self.Moving" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Response" EntityType="Self.Response" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Salary" EntityType="Self.Salary" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Termination" EntityType="Self.Termination" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Vacancy" EntityType="Self.Vacancy" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="Vacation" EntityType="Self.Vacation" Schema="hris" store:Type="Tables" />
+          <EntitySet Name="WorkHours" EntityType="Self.WorkHours" Schema="hris" store:Type="Tables" />
+          <AssociationSet Name="FK_EC_EmployeeId_Course_Id" Association="Self.FK_EC_EmployeeId_Course_Id">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="EmployeesCourses" EntitySet="EmployeesCourses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EC_EmployeeId_Employee_Id" Association="Self.FK_EC_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeesCourses" EntitySet="EmployeesCourses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_ContactDataId_ContactData_Id" Association="Self.FK_Employee_ContactDataId_ContactData_Id">
+            <End Role="ContactData" EntitySet="ContactData" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_DepartmentId_Department_Id" Association="Self.FK_Employee_DepartmentId_Department_Id">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_PositionId_Position_Id" Association="Self.FK_Employee_PositionId_Position_Id">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employment_DepartmentId_Department_Id" Association="Self.FK_Employment_DepartmentId_Department_Id">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employment" EntitySet="Employment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employment_EmployeeId_Employee_Id" Association="Self.FK_Employment_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employment" EntitySet="Employment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employment_PositionId_Position_Id" Association="Self.FK_Employment_PositionId_Position_Id">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employment" EntitySet="Employment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_EmployeeId_Employee_Id" Association="Self.FK_Moving_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Moving" EntitySet="Moving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_NewDepartment_Department_Id" Association="Self.FK_Moving_NewDepartment_Department_Id">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Moving" EntitySet="Moving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_NewPosition_Position_Id" Association="Self.FK_Moving_NewPosition_Position_Id">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Moving" EntitySet="Moving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_PreviousDepartment_Department_Id" Association="Self.FK_Moving_PreviousDepartment_Department_Id">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Moving" EntitySet="Moving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_PreviousPosition_Position_Id" Association="Self.FK_Moving_PreviousPosition_Position_Id">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Moving" EntitySet="Moving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_ContactDataId_ContactData_Id" Association="Self.FK_Response_ContactDataId_ContactData_Id">
+            <End Role="ContactData" EntitySet="ContactData" />
+            <End Role="Response" EntitySet="Response" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_VacancyId_Vacancy_Id" Association="Self.FK_Response_VacancyId_Vacancy_Id">
+            <End Role="Vacancy" EntitySet="Vacancy" />
+            <End Role="Response" EntitySet="Response" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Salary_EmployeeId_Employee_Id" Association="Self.FK_Salary_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Salary" EntitySet="Salary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termination_EmployeeId_Employee_Id" Association="Self.FK_Termination_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Termination" EntitySet="Termination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacancy_PositionId_Position_Id" Association="Self.FK_Vacancy_PositionId_Position_Id">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Vacancy" EntitySet="Vacancy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacation_EmployeeId_Employee_Id" Association="Self.FK_Vacation_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Vacation" EntitySet="Vacation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkHours_EmployeeId_Employee_Id" Association="Self.FK_WorkHours_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="WorkHours" EntitySet="WorkHours" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ContactData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_ContactDataId_ContactData_Id" FromRole="ContactData" ToRole="Employee" />
+          <NavigationProperty Name="Responses" Relationship="Self.FK_Response_ContactDataId_ContactData_Id" FromRole="ContactData" ToRole="Response" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DurationInHours" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <NavigationProperty Name="EmployeesCourses" Relationship="Self.FK_EC_EmployeeId_Course_Id" FromRole="Course" ToRole="EmployeesCourses" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_DepartmentId_Department_Id" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="Employments" Relationship="Self.FK_Employment_DepartmentId_Department_Id" FromRole="Department" ToRole="Employment" />
+          <NavigationProperty Name="Movings" Relationship="Self.FK_Moving_NewDepartment_Department_Id" FromRole="Department" ToRole="Moving" />
+          <NavigationProperty Name="Movings1" Relationship="Self.FK_Moving_PreviousDepartment_Department_Id" FromRole="Department" ToRole="Moving" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="DepatmentId" Type="Int32" Nullable="false" />
+          <Property Name="ContactDataId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ContactData" Relationship="Self.FK_Employee_ContactDataId_ContactData_Id" FromRole="Employee" ToRole="ContactData" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Employee_DepartmentId_Department_Id" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="EmployeesCourses" Relationship="Self.FK_EC_EmployeeId_Employee_Id" FromRole="Employee" ToRole="EmployeesCourses" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Employee_PositionId_Position_Id" FromRole="Employee" ToRole="Position" />
+          <NavigationProperty Name="Employment" Relationship="Self.FK_Employment_EmployeeId_Employee_Id" FromRole="Employee" ToRole="Employment" />
+          <NavigationProperty Name="Moving" Relationship="Self.FK_Moving_EmployeeId_Employee_Id" FromRole="Employee" ToRole="Moving" />
+          <NavigationProperty Name="Salary" Relationship="Self.FK_Salary_EmployeeId_Employee_Id" FromRole="Employee" ToRole="Salary" />
+          <NavigationProperty Name="Termination" Relationship="Self.FK_Termination_EmployeeId_Employee_Id" FromRole="Employee" ToRole="Termination" />
+          <NavigationProperty Name="Vacation" Relationship="Self.FK_Vacation_EmployeeId_Employee_Id" FromRole="Employee" ToRole="Vacation" />
+          <NavigationProperty Name="WorkHour" Relationship="Self.FK_WorkHours_EmployeeId_Employee_Id" FromRole="Employee" ToRole="WorkHours" />
+        </EntityType>
+        <EntityType Name="EmployeesCours">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_EC_EmployeeId_Course_Id" FromRole="EmployeesCourses" ToRole="Course" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EC_EmployeeId_Employee_Id" FromRole="EmployeesCourses" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employment">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="DepatmentId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Employment_DepartmentId_Department_Id" FromRole="Employment" ToRole="Department" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employment_EmployeeId_Employee_Id" FromRole="Employment" ToRole="Employee" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Employment_PositionId_Position_Id" FromRole="Employment" ToRole="Position" />
+        </EntityType>
+        <EntityType Name="Moving">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="PreviousPosition" Type="Int32" Nullable="false" />
+          <Property Name="NewPosition" Type="Int32" Nullable="false" />
+          <Property Name="PreviousDepartment" Type="Int32" Nullable="false" />
+          <Property Name="NewDepartment" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Moving_NewDepartment_Department_Id" FromRole="Moving" ToRole="Department" />
+          <NavigationProperty Name="Department1" Relationship="Self.FK_Moving_PreviousDepartment_Department_Id" FromRole="Moving" ToRole="Department" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Moving_EmployeeId_Employee_Id" FromRole="Moving" ToRole="Employee" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Moving_NewPosition_Position_Id" FromRole="Moving" ToRole="Position" />
+          <NavigationProperty Name="Position1" Relationship="Self.FK_Moving_PreviousPosition_Position_Id" FromRole="Moving" ToRole="Position" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_PositionId_Position_Id" FromRole="Position" ToRole="Employee" />
+          <NavigationProperty Name="Employments" Relationship="Self.FK_Employment_PositionId_Position_Id" FromRole="Position" ToRole="Employment" />
+          <NavigationProperty Name="Movings" Relationship="Self.FK_Moving_NewPosition_Position_Id" FromRole="Position" ToRole="Moving" />
+          <NavigationProperty Name="Movings1" Relationship="Self.FK_Moving_PreviousPosition_Position_Id" FromRole="Position" ToRole="Moving" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK_Vacancy_PositionId_Position_Id" FromRole="Position" ToRole="Vacancy" />
+        </EntityType>
+        <EntityType Name="Response">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VacancyId" Type="Int32" Nullable="false" />
+          <Property Name="ContactDataId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ContactData" Relationship="Self.FK_Response_ContactDataId_ContactData_Id" FromRole="Response" ToRole="ContactData" />
+          <NavigationProperty Name="Vacancy" Relationship="Self.FK_Response_VacancyId_Vacancy_Id" FromRole="Response" ToRole="Vacancy" />
+        </EntityType>
+        <EntityType Name="Salary">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Wage" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="Bonus" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="Deduction" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Salary_EmployeeId_Employee_Id" FromRole="Salary" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Termination">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Termination_EmployeeId_Employee_Id" FromRole="Termination" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Vacancy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="Conditions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Responsibilities" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Requirements" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Other" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Vacancy_PositionId_Position_Id" FromRole="Vacancy" ToRole="Position" />
+          <NavigationProperty Name="Responses" Relationship="Self.FK_Response_VacancyId_Vacancy_Id" FromRole="Vacancy" ToRole="Response" />
+        </EntityType>
+        <EntityType Name="Vacation">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="StardDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Vacation_EmployeeId_Employee_Id" FromRole="Vacation" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="WorkHour">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Hours" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_WorkHours_EmployeeId_Employee_Id" FromRole="WorkHours" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Employee_ContactDataId_ContactData_Id">
+          <End Role="ContactData" Type="Self.ContactData" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ContactDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_ContactDataId_ContactData_Id">
+          <End Role="ContactData" Type="Self.ContactData" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Response" Type="Self.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Response">
+              <PropertyRef Name="ContactDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EC_EmployeeId_Course_Id">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EmployeesCourses" Type="Self.EmployeesCours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeesCourses">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_DepartmentId_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employment_DepartmentId_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Employment" Type="Self.Employment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employment">
+              <PropertyRef Name="DepatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_NewDepartment_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="NewDepartment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_PreviousDepartment_Department_Id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="PreviousDepartment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EC_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EmployeesCourses" Type="Self.EmployeesCours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeesCourses">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_PositionId_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employment_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employment" Type="Self.Employment" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employment">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Moving" Type="Self.Moving" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Salary_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Salary" Type="Self.Salary" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Salary">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termination_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termination" Type="Self.Termination" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termination">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacation_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vacation" Type="Self.Vacation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacation">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkHours_EmployeeId_Employee_Id">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkHours" Type="Self.WorkHour" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkHours">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employment_PositionId_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Employment" Type="Self.Employment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employment">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_NewPosition_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="NewPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moving_PreviousPosition_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Moving" Type="Self.Moving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moving">
+              <PropertyRef Name="PreviousPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacancy_PositionId_Position_Id">
+          <End Role="Position" Type="Self.Position" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancy">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_VacancyId_Vacancy_Id">
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Response" Type="Self.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Response">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRIS_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ContactDatas" EntityType="Self.ContactData" />
+          <EntitySet Name="Courses" EntityType="Self.Course" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EmployeesCourses" EntityType="Self.EmployeesCours" />
+          <EntitySet Name="Employments" EntityType="Self.Employment" />
+          <EntitySet Name="Movings" EntityType="Self.Moving" />
+          <EntitySet Name="Positions" EntityType="Self.Position" />
+          <EntitySet Name="Responses" EntityType="Self.Response" />
+          <EntitySet Name="Salaries" EntityType="Self.Salary" />
+          <EntitySet Name="Terminations" EntityType="Self.Termination" />
+          <EntitySet Name="Vacancies" EntityType="Self.Vacancy" />
+          <EntitySet Name="Vacations" EntityType="Self.Vacation" />
+          <EntitySet Name="WorkHours" EntityType="Self.WorkHour" />
+          <AssociationSet Name="FK_Employee_ContactDataId_ContactData_Id" Association="Self.FK_Employee_ContactDataId_ContactData_Id">
+            <End Role="ContactData" EntitySet="ContactDatas" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_ContactDataId_ContactData_Id" Association="Self.FK_Response_ContactDataId_ContactData_Id">
+            <End Role="ContactData" EntitySet="ContactDatas" />
+            <End Role="Response" EntitySet="Responses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EC_EmployeeId_Course_Id" Association="Self.FK_EC_EmployeeId_Course_Id">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="EmployeesCourses" EntitySet="EmployeesCourses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_DepartmentId_Department_Id" Association="Self.FK_Employee_DepartmentId_Department_Id">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employment_DepartmentId_Department_Id" Association="Self.FK_Employment_DepartmentId_Department_Id">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employment" EntitySet="Employments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_NewDepartment_Department_Id" Association="Self.FK_Moving_NewDepartment_Department_Id">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Moving" EntitySet="Movings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_PreviousDepartment_Department_Id" Association="Self.FK_Moving_PreviousDepartment_Department_Id">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Moving" EntitySet="Movings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EC_EmployeeId_Employee_Id" Association="Self.FK_EC_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeesCourses" EntitySet="EmployeesCourses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_PositionId_Position_Id" Association="Self.FK_Employee_PositionId_Position_Id">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employment_EmployeeId_Employee_Id" Association="Self.FK_Employment_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Employment" EntitySet="Employments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_EmployeeId_Employee_Id" Association="Self.FK_Moving_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Moving" EntitySet="Movings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Salary_EmployeeId_Employee_Id" Association="Self.FK_Salary_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Salary" EntitySet="Salaries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termination_EmployeeId_Employee_Id" Association="Self.FK_Termination_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Termination" EntitySet="Terminations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacation_EmployeeId_Employee_Id" Association="Self.FK_Vacation_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Vacation" EntitySet="Vacations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkHours_EmployeeId_Employee_Id" Association="Self.FK_WorkHours_EmployeeId_Employee_Id">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="WorkHours" EntitySet="WorkHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employment_PositionId_Position_Id" Association="Self.FK_Employment_PositionId_Position_Id">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Employment" EntitySet="Employments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_NewPosition_Position_Id" Association="Self.FK_Moving_NewPosition_Position_Id">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Moving" EntitySet="Movings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moving_PreviousPosition_Position_Id" Association="Self.FK_Moving_PreviousPosition_Position_Id">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Moving" EntitySet="Movings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacancy_PositionId_Position_Id" Association="Self.FK_Vacancy_PositionId_Position_Id">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Vacancy" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_VacancyId_Vacancy_Id" Association="Self.FK_Response_VacancyId_Vacancy_Id">
+            <End Role="Vacancy" EntitySet="Vacancies" />
+            <End Role="Response" EntitySet="Responses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DatabaseModelContainer" CdmEntityContainer="HRIS_Entities">
+          <EntitySetMapping Name="ContactDatas">
+            <EntityTypeMapping TypeName="DatabaseModel.ContactData">
+              <MappingFragment StoreEntitySet="ContactData">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="DatabaseModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="DurationInHours" ColumnName="DurationInHours" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="DatabaseModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="DatabaseModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="DepatmentId" ColumnName="DepatmentId" />
+                <ScalarProperty Name="ContactDataId" ColumnName="ContactDataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeesCourses">
+            <EntityTypeMapping TypeName="DatabaseModel.EmployeesCours">
+              <MappingFragment StoreEntitySet="EmployeesCourses">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employments">
+            <EntityTypeMapping TypeName="DatabaseModel.Employment">
+              <MappingFragment StoreEntitySet="Employment">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="DepatmentId" ColumnName="DepatmentId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movings">
+            <EntityTypeMapping TypeName="DatabaseModel.Moving">
+              <MappingFragment StoreEntitySet="Moving">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="PreviousPosition" ColumnName="PreviousPosition" />
+                <ScalarProperty Name="NewPosition" ColumnName="NewPosition" />
+                <ScalarProperty Name="PreviousDepartment" ColumnName="PreviousDepartment" />
+                <ScalarProperty Name="NewDepartment" ColumnName="NewDepartment" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="DatabaseModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Responses">
+            <EntityTypeMapping TypeName="DatabaseModel.Response">
+              <MappingFragment StoreEntitySet="Response">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VacancyId" ColumnName="VacancyId" />
+                <ScalarProperty Name="ContactDataId" ColumnName="ContactDataId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Salaries">
+            <EntityTypeMapping TypeName="DatabaseModel.Salary">
+              <MappingFragment StoreEntitySet="Salary">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Wage" ColumnName="Wage" />
+                <ScalarProperty Name="Bonus" ColumnName="Bonus" />
+                <ScalarProperty Name="Deduction" ColumnName="Deduction" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terminations">
+            <EntityTypeMapping TypeName="DatabaseModel.Termination">
+              <MappingFragment StoreEntitySet="Termination">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vacancies">
+            <EntityTypeMapping TypeName="DatabaseModel.Vacancy">
+              <MappingFragment StoreEntitySet="Vacancy">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="Conditions" ColumnName="Conditions" />
+                <ScalarProperty Name="Responsibilities" ColumnName="Responsibilities" />
+                <ScalarProperty Name="Requirements" ColumnName="Requirements" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vacations">
+            <EntityTypeMapping TypeName="DatabaseModel.Vacation">
+              <MappingFragment StoreEntitySet="Vacation">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="StardDate" ColumnName="StardDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkHours">
+            <EntityTypeMapping TypeName="DatabaseModel.WorkHour">
+              <MappingFragment StoreEntitySet="WorkHours">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

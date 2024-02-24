@@ -1,14 +1,24 @@
 ﻿<Application x:Class="HRIS_Software.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:w_vm="clr-namespace:HRIS_Software.ViewModels.WindowsVMs"
+             xmlns:w_views="clr-namespace:HRIS_Software.Views.Windows">
+
     <Application.Resources>
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
-                
+
             </ResourceDictionary.MergedDictionaries>
-            
-            
+
+            <DataTemplate DataType="{x:Type w_vm:AuthenticationVM}">
+                <w_views:Authentication />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type w_vm:MainVM}">
+                <w_views:Main />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
