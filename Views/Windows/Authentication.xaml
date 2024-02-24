@@ -1,0 +1,59 @@
+﻿<Window x:Class="HRIS_Software.Views.Windows.Authentication"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:HRIS_Software.ViewModels.WindowsVMs"
+        xmlns:ex="clr-namespace:CustomControls;assembly=CustomControls"
+        xmlns:utils="clr-namespace:HRIS_Software.Models.Utils"
+        utils:DialogCloser.DialogResult="{Binding DialogResult}"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type={x:Type vm:AuthenticationVM}}"
+        Title="{Binding Title}"
+        Height="700"
+        Width="500"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanMinimize">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".25*" />
+            <RowDefinition />
+            <RowDefinition Height=".25*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Human Resources Information System"
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"
+                   FontSize="22"
+                   FontWeight="Bold" />
+        
+        <UniformGrid Grid.Row="1"
+                     Rows="2"
+                     Margin="50 100">
+            
+            <ex:PlaceholderTextBox Margin="20 30"
+                                   VerticalContentAlignment="Center"
+                                   FontSize="18"
+                                   Padding="10"
+                                   Placeholder="Логин:"
+                                   Text="{Binding Login}" />
+            
+            <ex:PlaceholderTextBox Margin="20 30"
+                                   VerticalContentAlignment="Center"
+                                   FontSize="18"
+                                   Padding="10"
+                                   Placeholder="Пароль:"
+                                   Text="{Binding Password}" />
+        </UniformGrid>
+
+        <Button Grid.Row="2"
+                Margin="100 30"
+                FontSize="18"
+                FontWeight="Bold"
+                Cursor="Hand"
+                Content="Войти"
+                Command="{Binding LoginCommand}" />
+    </Grid>
+</Window>
