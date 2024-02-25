@@ -1,22 +1,33 @@
 ﻿<Application x:Class="HRIS_Software.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:w_vm="clr-namespace:HRIS_Software.ViewModels.WindowsVMs"
-             xmlns:w_views="clr-namespace:HRIS_Software.Views.Windows">
+             xmlns:dialogs="clr-namespace:HRIS_Software.Models.ModalDialogs"
+             xmlns:p_vm="clr-namespace:HRIS_Software.ViewModels.PagesVMs"
+             xmlns:p_views="clr-namespace:HRIS_Software.Views.Pages">
 
     <Application.Resources>
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-
+                <ResourceDictionary Source="/Resources/Styles/Globals.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type w_vm:AuthenticationVM}">
-                <w_views:Authentication />
+            <dialogs:ShowContactInfoWindow x:Key="{x:Type dialogs:ShowContactInfoVM}"
+                                           x:Shared="False" />
+
+            <dialogs:ShowResponsesWindow x:Key="{x:Type dialogs:ShowResponsesVM}"
+                                           x:Shared="False" />
+
+            <DataTemplate DataType="{x:Type p_vm:EmployessStartVM}">
+                <p_views:EmployeesStart />
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type w_vm:MainVM}">
-                <w_views:Main />
+            <DataTemplate DataType="{x:Type p_vm:EmployeesVM}">
+                <p_views:EmployeesPage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type p_vm:VacanciesVM}">
+                <p_views:VacanciesPage />
             </DataTemplate>
 
         </ResourceDictionary>

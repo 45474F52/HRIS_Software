@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using HRIS_Software.Core;
 using System.Data.SqlClient;
+using System.Data.Entity.Core.EntityClient;
 
 namespace HRIS_Software.ViewModels.WindowsVMs
 {
@@ -48,12 +49,15 @@ namespace HRIS_Software.ViewModels.WindowsVMs
             }
         }
 
+        public EntityConnectionStringBuilder Builder { get; private set; }
+
         private void Authenticate()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
             {
                 DataSource = Properties.Settings.Default.DataSource ?? string.Empty,
                 InitialCatalog = Properties.Settings.Default.InitialCatalog ?? string.Empty,
+                MultipleActiveResultSets = true,
                 TrustServerCertificate = true,
                 UserID = Login ?? string.Empty,
                 Password = Password ?? string.Empty
@@ -61,6 +65,13 @@ namespace HRIS_Software.ViewModels.WindowsVMs
 
             if (TestConnection(builder.ConnectionString))
             {
+                Builder = new EntityConnectionStringBuilder()
+                {
+                    Provider = "System.Data.SqlClient",
+                    Metadata = "res://*/Models.Database.HRIS_Model.csdl|res://*/Models.Database.HRIS_Model.ssdl|res://*/Models.Database.HRIS_Model.msl",
+                    ProviderConnectionString = builder.ConnectionString
+                };
+
                 DialogResult = true;
             }
             else

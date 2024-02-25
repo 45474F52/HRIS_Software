@@ -51,6 +51,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=8.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>packages\Autofac.8.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="CustomControls">
       <HintPath>D:\Dev\VisualStudio\CSharp\CustomControls\CustomControls\bin\Debug\CustomControls.dll</HintPath>
     </Reference>
@@ -60,8 +63,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -109,20 +115,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Utils\DialogCloser.cs" />
-    <Compile Include="ViewModels\BaseVM.cs" />
-    <Compile Include="ViewModels\WindowsVMs\AuthenticationVM.cs" />
-    <Compile Include="ViewModels\WindowsVMs\MainVM.cs" />
-    <Compile Include="Views\Windows\Authentication.xaml.cs">
-      <DependentUpon>Authentication.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Windows\Main.xaml.cs">
-      <DependentUpon>Main.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Core\ObservableObject.cs" />
-    <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Models\Database\ContactData.cs">
       <DependentUpon>HRIS_Model.tt</DependentUpon>
     </Compile>
@@ -141,6 +133,7 @@
     <Compile Include="Models\Database\Employment.cs">
       <DependentUpon>HRIS_Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Database\EntitiesConstructor.cs" />
     <Compile Include="Models\Database\HRIS_Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -180,6 +173,43 @@
     <Compile Include="Models\Database\WorkHour.cs">
       <DependentUpon>HRIS_Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModalDialogs\ModalDialogVM.cs" />
+    <Compile Include="Models\ModalDialogs\ShowContactInfoVM.cs" />
+    <Compile Include="Models\ModalDialogs\ShowContactInfoWindow.xaml.cs">
+      <DependentUpon>ShowContactInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModalDialogs\ShowResponsesVM.cs" />
+    <Compile Include="Models\ModalDialogs\ShowResponsesWindow.xaml.cs">
+      <DependentUpon>ShowResponsesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Utils\CurrentViewService.cs" />
+    <Compile Include="Models\Utils\DialogCloser.cs" />
+    <Compile Include="Models\Utils\ModalDialogWindowBehaviour.cs" />
+    <Compile Include="ViewModels\BaseVM.cs" />
+    <Compile Include="ViewModels\PagesVMs\EmployeesVM.cs" />
+    <Compile Include="ViewModels\PagesVMs\EmployessStartVM.cs" />
+    <Compile Include="ViewModels\PagesVMs\VacanciesVM.cs" />
+    <Compile Include="ViewModels\WindowsVMs\AuthenticationVM.cs" />
+    <Compile Include="ViewModels\WindowsVMs\MainVM.cs" />
+    <Compile Include="Views\Pages\EmployeesPage.xaml.cs">
+      <DependentUpon>EmployeesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\EmployeesStart.xaml.cs">
+      <DependentUpon>EmployeesStart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\VacanciesPage.xaml.cs">
+      <DependentUpon>VacanciesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Authentication.xaml.cs">
+      <DependentUpon>Authentication.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Main.xaml.cs">
+      <DependentUpon>Main.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\ObservableObject.cs" />
+    <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -214,10 +244,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
-    <Folder Include="Resources\Styles\" />
-    <Folder Include="ViewModels\PagesVMs\" />
-    <Folder Include="Views\Pages\" />
+    <Folder Include="Models\Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8.1">
@@ -232,21 +259,33 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\Database\HRIS_Model.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>HRIS_Model.Context.cs</LastGenOutput>
-      <DependentUpon>HRIS_Model.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\Database\HRIS_Model.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HRIS_Model.edmx</DependentUpon>
-      <LastGenOutput>HRIS_Model.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Models\ModalDialogs\ShowContactInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Models\ModalDialogs\ShowResponsesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Globals.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\EmployeesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\EmployeesStart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\VacanciesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Windows\Authentication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -255,6 +294,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Database\HRIS_Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HRIS_Model.edmx</DependentUpon>
+      <LastGenOutput>HRIS_Model.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Database\HRIS_Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HRIS_Model.edmx</DependentUpon>
+      <LastGenOutput>HRIS_Model.cs</LastGenOutput>
+    </Content>
+    <Resource Include="Resources\Images\DefaultUser.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

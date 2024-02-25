@@ -4,41 +4,41 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="41e2a3dceac24fc9ac1233165ff296b6" Name="Diagram1">
-        <EntityTypeShape EntityType="DatabaseModel.ContactData" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Course" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Department" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Employee" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.EmployeesCours" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Employment" Width="1.5" PointX="8.25" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Moving" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Position" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Response" Width="1.5" PointX="5.25" PointY="23" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Salary" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Termination" Width="1.5" PointX="5.25" PointY="26.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Vacancy" Width="1.5" PointX="3" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Vacation" Width="1.5" PointX="5.25" PointY="29.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.WorkHour" Width="1.5" PointX="5.25" PointY="31.75" IsExpanded="true" />
-        <AssociationConnector Association="DatabaseModel.FK_Employee_ContactDataId_ContactData_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Response_ContactDataId_ContactData_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_EC_EmployeeId_Course_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Employee_DepartmentId_Department_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Employment_DepartmentId_Department_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Moving_NewDepartment_Department_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Moving_PreviousDepartment_Department_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_EC_EmployeeId_Employee_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Employee_PositionId_Position_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Employment_EmployeeId_Employee_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Moving_EmployeeId_Employee_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Salary_EmployeeId_Employee_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Termination_EmployeeId_Employee_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Vacation_EmployeeId_Employee_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_WorkHours_EmployeeId_Employee_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Employment_PositionId_Position_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Moving_NewPosition_Position_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Moving_PreviousPosition_Position_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Vacancy_PositionId_Position_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK_Response_VacancyId_Vacancy_Id" ManuallyRouted="false" />
+      <Diagram DiagramId="bd1ca08288dc47b0ba7b22a5e2eebbeb" Name="Diagram1">
+        <EntityTypeShape EntityType="HRISModel.ContactData" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Course" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Department" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Employee" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.EmployeesCours" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Employment" Width="1.5" PointX="8.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Moving" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Position" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Response" Width="1.5" PointX="5.25" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Salary" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Termination" Width="1.5" PointX="5.25" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Vacancy" Width="1.5" PointX="3" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.Vacation" Width="1.5" PointX="5.25" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRISModel.WorkHour" Width="1.5" PointX="5.25" PointY="31.75" IsExpanded="true" />
+        <AssociationConnector Association="HRISModel.FK_Employee_ContactDataId_ContactData_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Response_ContactDataId_ContactData_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_EC_EmployeeId_Course_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Employee_DepartmentId_Department_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Employment_DepartmentId_Department_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Moving_NewDepartment_Department_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Moving_PreviousDepartment_Department_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_EC_EmployeeId_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Employee_PositionId_Position_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Employment_EmployeeId_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Moving_EmployeeId_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Salary_EmployeeId_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Termination_EmployeeId_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Vacation_EmployeeId_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_WorkHours_EmployeeId_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Employment_PositionId_Position_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Moving_NewPosition_Position_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Moving_PreviousPosition_Position_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Vacancy_PositionId_Position_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HRISModel.FK_Response_VacancyId_Vacancy_Id" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

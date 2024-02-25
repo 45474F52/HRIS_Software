@@ -13,10 +13,10 @@ namespace HRIS_Software.Models.Database
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HRIS_Entities : DbContext
+    public partial class Entities : DbContext
     {
-        public HRIS_Entities()
-            : base("name=HRIS_Entities")
+        public Entities()
+            : base("name=Entities")
         {
         }
     
