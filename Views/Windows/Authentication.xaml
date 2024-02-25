@@ -16,7 +16,7 @@
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanMinimize">
 
-    <Grid>
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height=".25*" />
             <RowDefinition />

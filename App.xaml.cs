@@ -1,4 +1,7 @@
-﻿using HRIS_Software.ViewModels.WindowsVMs;
+﻿using Autofac;
+using HRIS_Software.Models.Database;
+using HRIS_Software.ViewModels.PagesVMs;
+using HRIS_Software.ViewModels.WindowsVMs;
 using HRIS_Software.Views.Windows;
 using System.Windows;
 
@@ -6,6 +9,8 @@ namespace HRIS_Software
 {
     public partial class App : Application
     {
+        private IContainer _container;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -16,12 +21,17 @@ namespace HRIS_Software
                 DataContext = authCtx
             };
 
-            bool? result = auth.ShowDialog();
-            if (result == true)
+            if (auth.ShowDialog() == true)
             {
+                ContainerBuilder builder = new ContainerBuilder();
+
+                builder.Register(x => new Entities(authCtx.Builder)).AsSelf().InstancePerLifetimeScope();
+
+                _container = builder.Build();
+
                 Main main = new Main
                 {
-                    DataContext = new MainVM(authCtx.Login)
+                    DataContext = new MainVM(authCtx.Login, _container.Resolve<Entities>())
                 };
 
                 ShutdownMode = ShutdownMode.OnLastWindowClose;
@@ -34,6 +44,12 @@ namespace HRIS_Software
             }
 
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            _container?.Dispose();
+            base.OnExit(e);
         }
     }
 }

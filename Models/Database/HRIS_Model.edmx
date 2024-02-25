@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище DatabaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище HRISModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ContactData">
           <Key>
             <PropertyRef Name="Id" />
@@ -403,7 +403,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище DatabaseModelContainer">
+        <EntityContainer Name="Хранилище HRISModelContainer">
           <EntitySet Name="ContactData" EntityType="Self.ContactData" Schema="hris" store:Type="Tables" />
           <EntitySet Name="Course" EntityType="Self.Course" Schema="hris" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="hris" store:Type="Tables" />
@@ -503,7 +503,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="HRISModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ContactData">
           <Key>
             <PropertyRef Name="Id" />
@@ -942,7 +942,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HRIS_Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ContactDatas" EntityType="Self.ContactData" />
           <EntitySet Name="Courses" EntityType="Self.Course" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
@@ -1043,9 +1043,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище DatabaseModelContainer" CdmEntityContainer="HRIS_Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище HRISModelContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="ContactDatas">
-            <EntityTypeMapping TypeName="DatabaseModel.ContactData">
+            <EntityTypeMapping TypeName="HRISModel.ContactData">
               <MappingFragment StoreEntitySet="ContactData">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
@@ -1055,7 +1055,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Courses">
-            <EntityTypeMapping TypeName="DatabaseModel.Course">
+            <EntityTypeMapping TypeName="HRISModel.Course">
               <MappingFragment StoreEntitySet="Course">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CourseName" ColumnName="CourseName" />
@@ -1065,7 +1065,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Departments">
-            <EntityTypeMapping TypeName="DatabaseModel.Department">
+            <EntityTypeMapping TypeName="HRISModel.Department">
               <MappingFragment StoreEntitySet="Department">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
@@ -1073,7 +1073,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="DatabaseModel.Employee">
+            <EntityTypeMapping TypeName="HRISModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
@@ -1086,7 +1086,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmployeesCourses">
-            <EntityTypeMapping TypeName="DatabaseModel.EmployeesCours">
+            <EntityTypeMapping TypeName="HRISModel.EmployeesCours">
               <MappingFragment StoreEntitySet="EmployeesCourses">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
@@ -1097,7 +1097,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employments">
-            <EntityTypeMapping TypeName="DatabaseModel.Employment">
+            <EntityTypeMapping TypeName="HRISModel.Employment">
               <MappingFragment StoreEntitySet="Employment">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="PositionId" ColumnName="PositionId" />
@@ -1107,7 +1107,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Movings">
-            <EntityTypeMapping TypeName="DatabaseModel.Moving">
+            <EntityTypeMapping TypeName="HRISModel.Moving">
               <MappingFragment StoreEntitySet="Moving">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="PreviousPosition" ColumnName="PreviousPosition" />
@@ -1119,7 +1119,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Positions">
-            <EntityTypeMapping TypeName="DatabaseModel.Position">
+            <EntityTypeMapping TypeName="HRISModel.Position">
               <MappingFragment StoreEntitySet="Position">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PositionName" ColumnName="PositionName" />
@@ -1127,7 +1127,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Responses">
-            <EntityTypeMapping TypeName="DatabaseModel.Response">
+            <EntityTypeMapping TypeName="HRISModel.Response">
               <MappingFragment StoreEntitySet="Response">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="VacancyId" ColumnName="VacancyId" />
@@ -1138,7 +1138,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Salaries">
-            <EntityTypeMapping TypeName="DatabaseModel.Salary">
+            <EntityTypeMapping TypeName="HRISModel.Salary">
               <MappingFragment StoreEntitySet="Salary">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Wage" ColumnName="Wage" />
@@ -1149,7 +1149,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Terminations">
-            <EntityTypeMapping TypeName="DatabaseModel.Termination">
+            <EntityTypeMapping TypeName="HRISModel.Termination">
               <MappingFragment StoreEntitySet="Termination">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
@@ -1158,7 +1158,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vacancies">
-            <EntityTypeMapping TypeName="DatabaseModel.Vacancy">
+            <EntityTypeMapping TypeName="HRISModel.Vacancy">
               <MappingFragment StoreEntitySet="Vacancy">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PositionId" ColumnName="PositionId" />
@@ -1170,7 +1170,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vacations">
-            <EntityTypeMapping TypeName="DatabaseModel.Vacation">
+            <EntityTypeMapping TypeName="HRISModel.Vacation">
               <MappingFragment StoreEntitySet="Vacation">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="StardDate" ColumnName="StardDate" />
@@ -1179,7 +1179,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WorkHours">
-            <EntityTypeMapping TypeName="DatabaseModel.WorkHour">
+            <EntityTypeMapping TypeName="HRISModel.WorkHour">
               <MappingFragment StoreEntitySet="WorkHours">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
