@@ -2,6 +2,7 @@
 using HRIS_Software.Core;
 using System.Data.SqlClient;
 using System.Data.Entity.Core.EntityClient;
+using HRIS_Software.Models.ModalDialogs;
 
 namespace HRIS_Software.ViewModels.WindowsVMs
 {
@@ -49,6 +50,17 @@ namespace HRIS_Software.ViewModels.WindowsVMs
             }
         }
 
+        private BaseVM _modalDialog;
+        public BaseVM ModalDialog
+        {
+            get => _modalDialog;
+            private set
+            {
+                _modalDialog = value;
+                OnPropertyChanged();
+            }
+        }
+
         public EntityConnectionStringBuilder Builder { get; private set; }
 
         private void Authenticate()
@@ -76,7 +88,7 @@ namespace HRIS_Software.ViewModels.WindowsVMs
             }
             else
             {
-                MessageBox.Show("Неверный логин или пароль");
+                ModalDialog = new ShowMessageVM("Неверный логин или пароль", "Ошибка аутентификации", MessageType.Error);
             }
         }
 

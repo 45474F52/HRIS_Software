@@ -50,6 +50,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Images\Logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=8.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.8.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
@@ -178,6 +181,10 @@
     <Compile Include="Models\ModalDialogs\ShowContactInfoWindow.xaml.cs">
       <DependentUpon>ShowContactInfoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModalDialogs\ShowMessage.xaml.cs">
+      <DependentUpon>ShowMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModalDialogs\ShowMessageVM.cs" />
     <Compile Include="Models\ModalDialogs\ShowResponsesVM.cs" />
     <Compile Include="Models\ModalDialogs\ShowResponsesWindow.xaml.cs">
       <DependentUpon>ShowResponsesWindow.xaml</DependentUpon>
@@ -266,6 +273,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Models\ModalDialogs\ShowMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Models\ModalDialogs\ShowResponsesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -306,6 +317,24 @@
       <DependentUpon>HRIS_Model.edmx</DependentUpon>
       <LastGenOutput>HRIS_Model.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Images\Logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Report.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Info.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Warning.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\DefaultUser.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -12,6 +12,9 @@
                 <ResourceDictionary Source="/Resources/Styles/Globals.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <dialogs:ShowMessage x:Key="{x:Type dialogs:ShowMessageVM}"
+                                 x:Shared="False" />
+
             <dialogs:ShowContactInfoWindow x:Key="{x:Type dialogs:ShowContactInfoVM}"
                                            x:Shared="False" />
 
