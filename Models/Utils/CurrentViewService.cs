@@ -3,7 +3,7 @@ using HRIS_Software.ViewModels;
 
 namespace HRIS_Software.Models.Utils
 {
-    public sealed class CurrentViewService
+    internal sealed class CurrentViewService
     {
         private readonly Action<BaseVM> _onViewChanged;
 

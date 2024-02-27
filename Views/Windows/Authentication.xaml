@@ -7,6 +7,7 @@
         xmlns:ex="clr-namespace:CustomControls;assembly=CustomControls"
         xmlns:utils="clr-namespace:HRIS_Software.Models.Utils"
         utils:DialogCloser.DialogResult="{Binding DialogResult}"
+        utils:ModalDialogWindowBehaviour.ModalDialogWindow="{Binding ModalDialog}"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type={x:Type vm:AuthenticationVM}}"
         Title="{Binding Title}"
