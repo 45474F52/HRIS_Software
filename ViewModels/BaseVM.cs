@@ -2,7 +2,7 @@
 
 namespace HRIS_Software.ViewModels
 {
-    public abstract class BaseVM : ObservableObject
+    internal abstract class BaseVM : ObservableObject
     {
         private string _title;
         public string Title

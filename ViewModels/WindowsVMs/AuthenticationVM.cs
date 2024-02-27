@@ -6,7 +6,7 @@ using HRIS_Software.Models.ModalDialogs;
 
 namespace HRIS_Software.ViewModels.WindowsVMs
 {
-    public sealed class AuthenticationVM : BaseVM
+    internal sealed class AuthenticationVM : BaseVM
     {
         public AuthenticationVM()
         {

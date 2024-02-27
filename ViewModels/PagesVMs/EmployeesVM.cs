@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace HRIS_Software.ViewModels.PagesVMs
 {
-    public sealed class EmployeesVM : BaseVM
+    internal sealed class EmployeesVM : BaseVM
     {
         public EmployeesVM(Entities db)
         {

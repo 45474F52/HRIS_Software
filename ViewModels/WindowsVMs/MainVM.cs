@@ -1,25 +1,29 @@
 ﻿using HRIS_Software.Core;
-using HRIS_Software.Models.Database;
 using HRIS_Software.Models.Utils;
+using HRIS_Software.Models.Database;
 using HRIS_Software.ViewModels.PagesVMs;
 using System.Collections.Generic;
 
 namespace HRIS_Software.ViewModels.WindowsVMs
 {
-    public sealed class MainVM : BaseVM
+    internal sealed class MainVM : BaseVM
     {
+        private readonly Entities _db;
+        private readonly CurrentViewService _currentViewService;
         private readonly Stack<BaseVM> _views = new Stack<BaseVM>();
 
         public MainVM(string login, Entities db)
         {
+            _db = db;
+
             Title = "Human Resources Information System";
 
             Login = login;
             OnPropertyChanged(nameof(Login));
 
-            CurrentViewService currentViewService = new CurrentViewService(value => SetView(value));
+            _currentViewService = new CurrentViewService(value => SetView(value));
 
-            SetView(new EmployessStartVM(currentViewService, db));
+            SetViewByLogin(login);
 
             BackCommand = new RelayCommand(_ => GoBack(), _ => CanGoBack);
         }
@@ -42,6 +46,24 @@ namespace HRIS_Software.ViewModels.WindowsVMs
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(CanGoBack));
                 }
+            }
+        }
+
+        private void SetViewByLogin(string login)
+        {
+            switch (login)
+            {
+                case "HRManager":
+                    SetView(new EmployessStartVM(_currentViewService, _db));
+                    break;
+                case "Accountant":
+                    break;
+                case "HRSpecialist":
+                    break;
+                case "HRAnalyst":
+                    break;
+                default:
+                    break;
             }
         }
 

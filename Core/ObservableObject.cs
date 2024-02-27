@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace HRIS_Software.Core
 {
-    public abstract class ObservableObject : INotifyPropertyChanged
+    internal abstract class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
