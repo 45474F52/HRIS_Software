@@ -4,7 +4,7 @@ using HRIS_Software.Models.Utils;
 
 namespace HRIS_Software.ViewModels.PagesVMs
 {
-    public sealed class EmployessStartVM : BaseVM
+    internal sealed class EmployessStartVM : BaseVM
     {
         public EmployessStartVM(CurrentViewService currentViewService, Entities db)
         {

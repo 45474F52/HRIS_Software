@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace HRIS_Software.Core
 {
-    public sealed class RelayCommand : ICommand
+    internal sealed class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Func<object, bool> _canExecute;
