@@ -10,7 +10,7 @@ namespace HRIS_Software.Models.ModalDialogs
             Parameter = value;
             OnPropertyChanged(nameof(Parameter));
 
-            CancelCommand = new RelayCommand(_ => DialogResult = true);
+            CancelCommand = new RelayCommand(() => DialogResult = true);
         }
 
         public virtual RelayCommand CancelCommand { get; protected internal set; }

@@ -15,7 +15,7 @@ namespace HRIS_Software.ViewModels.WindowsVMs
 
             Title = "Аутентификация";
 
-            LoginCommand = new RelayCommand(_ => Authenticate());
+            LoginCommand = new RelayCommand(() => Authenticate());
         }
 
         public RelayCommand LoginCommand { get; private set; }

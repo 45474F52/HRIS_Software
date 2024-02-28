@@ -1,8 +1,8 @@
-﻿using HRIS_Software.Core;
+﻿using System.Collections.Generic;
+using HRIS_Software.Core;
 using HRIS_Software.Models.Utils;
 using HRIS_Software.Models.Database;
 using HRIS_Software.ViewModels.PagesVMs;
-using System.Collections.Generic;
 
 namespace HRIS_Software.ViewModels.WindowsVMs
 {
@@ -25,7 +25,7 @@ namespace HRIS_Software.ViewModels.WindowsVMs
 
             SetViewByLogin(login);
 
-            BackCommand = new RelayCommand(_ => GoBack(), _ => CanGoBack);
+            BackCommand = new RelayCommand(() => GoBack(), () => CanGoBack);
         }
 
         public RelayCommand BackCommand { get; }
@@ -57,10 +57,16 @@ namespace HRIS_Software.ViewModels.WindowsVMs
                     SetView(new EmployessStartVM(_currentViewService, _db));
                     break;
                 case "Accountant":
+                    SetView(new EmployessStartVM(_currentViewService, _db));
                     break;
                 case "HRSpecialist":
+                    SetView(new EmployessStartVM(_currentViewService, _db));
                     break;
                 case "HRAnalyst":
+                    SetView(new EmployessStartVM(_currentViewService, _db));
+                    break;
+                case "Administrator":
+                    SetView(new EmployessStartVM(_currentViewService, _db));
                     break;
                 default:
                     break;
