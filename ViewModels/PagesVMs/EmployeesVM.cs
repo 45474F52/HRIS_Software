@@ -14,13 +14,10 @@ namespace HRIS_Software.ViewModels.PagesVMs
         {
             Title = "Сотрудники";
 
-            ShowContactData = new RelayCommand(arg =>
+            ShowContactData = new RelayCommand<Employee>(employee =>
             {
-                if (arg is Employee employee)
-                {
-                    ShowContactInfoVM dialog = new ShowContactInfoVM(employee);
-                    ModalDialog = dialog;
-                }
+                ShowContactInfoVM dialog = new ShowContactInfoVM(employee);
+                ModalDialog = dialog;
             });
 
             Dispatcher.CurrentDispatcher.Invoke(async () =>
@@ -30,7 +27,7 @@ namespace HRIS_Software.ViewModels.PagesVMs
             });
         }
 
-        public RelayCommand ShowContactData { get; }
+        public RelayCommand<Employee> ShowContactData { get; }
 
         private ObservableCollection<Employee> _employees;
         public ObservableCollection<Employee> Employees

@@ -35,7 +35,8 @@
                      Rows="2"
                      Margin="50 100">
             
-            <ex:PlaceholderTextBox Margin="20 30"
+            <ex:PlaceholderTextBox x:Name="LoginTB"
+                                   Margin="20 30"
                                    VerticalContentAlignment="Center"
                                    FontSize="18"
                                    Padding="10"

@@ -10,8 +10,8 @@ namespace HRIS_Software.ViewModels.PagesVMs
         {
             Title = "Панель управления сотрудниками";
 
-            GoToEmployees = new RelayCommand(_ => currentViewService.SetView(new EmployeesVM(db)));
-            GoToVacancies = new RelayCommand(_ => currentViewService.SetView(new VacanciesVM(db)));
+            GoToEmployees = new RelayCommand(() => currentViewService.SetView(new EmployeesVM(db)));
+            GoToVacancies = new RelayCommand(() => currentViewService.SetView(new VacanciesVM(db)));
         }
 
         public RelayCommand GoToEmployees { get; }

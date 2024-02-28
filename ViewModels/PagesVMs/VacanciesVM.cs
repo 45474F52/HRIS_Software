@@ -15,22 +15,9 @@ namespace HRIS_Software.ViewModels.PagesVMs
         {
             Title = "Вакансии";
 
-            ShowResponsesCommand = new RelayCommand(arg =>
-            {
-                if (arg is Vacancy vacancy)
-                {
-                    ShowResponsesVM dialog = new ShowResponsesVM(vacancy);
-                    ModalDialog = dialog;
-                }
-            }, arg =>
-            {
-                if (arg is Vacancy vacancy && vacancy.Responses != null)
-                {
-                    return vacancy.Responses.Any();
-                }
-
-                return false;
-            });
+            ShowResponsesCommand = new RelayCommand<Vacancy>(
+                vacancy => ModalDialog = new ShowResponsesVM(vacancy),
+                vacancy => vacancy.Responses != null && vacancy.Responses.Any());
 
             Dispatcher.CurrentDispatcher.Invoke(async () =>
             {
@@ -39,7 +26,7 @@ namespace HRIS_Software.ViewModels.PagesVMs
             });
         }
 
-        public RelayCommand ShowResponsesCommand { get; }
+        public RelayCommand<Vacancy> ShowResponsesCommand { get; }
 
         private ObservableCollection<Vacancy> _vacancies;
         public ObservableCollection<Vacancy> Vacancies
