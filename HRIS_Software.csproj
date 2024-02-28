@@ -40,6 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +50,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Images\Logo.ico</ApplicationIcon>
@@ -176,6 +178,7 @@
     <Compile Include="Models\Database\WorkHour.cs">
       <DependentUpon>HRIS_Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Extensions\SecureStringExtensions.cs" />
     <Compile Include="Models\ModalDialogs\ModalDialogVM.cs" />
     <Compile Include="Models\ModalDialogs\ShowContactInfoVM.cs" />
     <Compile Include="Models\ModalDialogs\ShowContactInfoWindow.xaml.cs">
@@ -192,6 +195,9 @@
     <Compile Include="Models\Utils\CurrentViewService.cs" />
     <Compile Include="Models\Utils\DialogCloser.cs" />
     <Compile Include="Models\Utils\ModalDialogWindowBehaviour.cs" />
+    <Compile Include="Models\Utils\PasswordBoxMonitor.cs" />
+    <Compile Include="Models\Utils\Security\PasswordBoxBehaviour.cs" />
+    <Compile Include="Models\Utils\Security\PasswordBoxBindingMarshaller.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
     <Compile Include="ViewModels\PagesVMs\EmployeesVM.cs" />
     <Compile Include="ViewModels\PagesVMs\EmployessStartVM.cs" />
@@ -250,9 +256,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8.1">
       <Visible>False</Visible>
