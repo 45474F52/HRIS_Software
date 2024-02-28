@@ -10,6 +10,7 @@
         d:DataContext="{d:DesignInstance Type={x:Type local:ShowResponsesVM}}"
         Title="{Binding Title}"
         utils:DialogCloser.DialogResult="{Binding DialogResult}"
+        Topmost="True"
         Height="450"
         Width="800">
 
