@@ -1,8 +1,9 @@
-﻿using System.Windows;
+﻿using System.Security;
 using HRIS_Software.Core;
 using System.Data.SqlClient;
-using System.Data.Entity.Core.EntityClient;
+using HRIS_Software.Models.Extensions;
 using HRIS_Software.Models.ModalDialogs;
+using System.Data.Entity.Core.EntityClient;
 
 namespace HRIS_Software.ViewModels.WindowsVMs
 {
@@ -10,6 +11,8 @@ namespace HRIS_Software.ViewModels.WindowsVMs
     {
         public AuthenticationVM()
         {
+            Password = new SecureString();
+
             Title = "Аутентификация";
 
             LoginCommand = new RelayCommand(_ => Authenticate());
@@ -28,13 +31,18 @@ namespace HRIS_Software.ViewModels.WindowsVMs
             }
         }
 
-        private string _password;
-        public string Password
+        private SecureString _password;
+        public SecureString Password
         {
             get => _password;
             set
             {
-                _password = value;
+                if (_password != null)
+                {
+                    _password.Dispose();
+                }
+
+                _password = value.Copy();
                 OnPropertyChanged();
             }
         }
@@ -72,8 +80,10 @@ namespace HRIS_Software.ViewModels.WindowsVMs
                 MultipleActiveResultSets = true,
                 TrustServerCertificate = true,
                 UserID = Login ?? string.Empty,
-                Password = Password ?? string.Empty
+                Password = Password.ToUnsecuredString()
             };
+
+            ClearSecurePassword();
 
             if (TestConnection(builder.ConnectionString))
             {
@@ -114,6 +124,12 @@ namespace HRIS_Software.ViewModels.WindowsVMs
             }
 
             return result;
+        }
+
+        private void ClearSecurePassword()
+        {
+            _password.Dispose();
+            _password = new SecureString();
         }
     }
 }

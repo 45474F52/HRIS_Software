@@ -6,6 +6,7 @@
         xmlns:vm="clr-namespace:HRIS_Software.ViewModels.WindowsVMs"
         xmlns:ex="clr-namespace:CustomControls;assembly=CustomControls"
         xmlns:utils="clr-namespace:HRIS_Software.Models.Utils"
+        xmlns:security="clr-namespace:HRIS_Software.Models.Utils.Security"
         utils:DialogCloser.DialogResult="{Binding DialogResult}"
         utils:ModalDialogWindowBehaviour.ModalDialogWindow="{Binding ModalDialog}"
         mc:Ignorable="d"
@@ -40,13 +41,68 @@
                                    Padding="10"
                                    Placeholder="Логин:"
                                    Text="{Binding Login}" />
-            
-            <ex:PlaceholderTextBox Margin="20 30"
-                                   VerticalContentAlignment="Center"
-                                   FontSize="18"
-                                   Padding="10"
-                                   Placeholder="Пароль:"
-                                   Text="{Binding Password}" />
+
+            <PasswordBox x:Name="PwdBox"
+                         Margin="20 30"
+                         VerticalContentAlignment="Center"
+                         FontSize="18"
+                         Padding="10"
+                         PasswordChar="×"
+                         security:PasswordBoxBehaviour.SecurePassword="{Binding Password}">
+
+                <PasswordBox.Style>
+                    <Style TargetType="{x:Type PasswordBox}">
+                        <Setter Property="utils:PasswordBoxMonitor.IsMonitoring"
+                                Value="True" />
+                        
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                    <Border x:Name="PwdBorder"
+                                            Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            SnapsToDevicePixels="True">
+
+                                        <Grid>
+                                            <ScrollViewer x:Name="PART_ContentHost"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            
+                                            <TextBlock Text="Пароль:"
+                                                       Padding="10"
+                                                       FontSize="18"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="Gray"
+                                                       Visibility="Collapsed"
+                                                       x:Name="PwdPlaceholder" />
+                                        </Grid>
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsEnabled"
+                                                 Value="False">
+                                            
+                                            <Setter TargetName="PwdBorder"
+                                                    Property="Background"
+                                                    Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                                            
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                        </Trigger>
+                                        <Trigger Property="utils:PasswordBoxMonitor.PasswordLength"
+                                                 Value="0">
+                                            
+                                            <Setter TargetName="PwdPlaceholder"
+                                                    Property="Visibility"
+                                                    Value="Visible" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </PasswordBox.Style>
+            </PasswordBox>
         </UniformGrid>
 
         <Button Grid.Row="2"
