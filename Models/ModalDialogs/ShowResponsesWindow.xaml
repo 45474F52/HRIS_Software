@@ -43,9 +43,35 @@
                             <StackPanel Grid.Column="1"
                                         Orientation="Vertical">
 
-                                <TextBlock Text="{Binding ContactData.Address}" />
-                                <TextBlock Text="{Binding ContactData.Email}" />
-                                <TextBlock Text="{Binding ContactData.Number}" />
+                                <TextBlock x:Name="AddressTBl"
+                                           Text="{Binding ContactData.Address}">
+                                    
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CopyTextCommand}"
+                                                      MouseAction="LeftClick"
+                                                      CommandParameter="{Binding ElementName=AddressTBl, Path=Text}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
+                                
+                                <TextBlock x:Name="EmailTBl"
+                                           Text="{Binding ContactData.Email}">
+
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CopyTextCommand}"
+                                                      MouseAction="LeftClick"
+                                                      CommandParameter="{Binding ElementName=EmailTBl, Path=Text}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
+
+                                <TextBlock x:Name="NumberTBl"
+                                           Text="{Binding ContactData.Number}">
+
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CopyTextCommand}"
+                                                      MouseAction="LeftClick"
+                                                      CommandParameter="{Binding ElementName=NumberTBl, Path=Text}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
                             </StackPanel>
 
                             <TextBlock Grid.ColumnSpan="2"

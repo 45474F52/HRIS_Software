@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using HRIS_Software.Models.Database;
-using HRIS_Software.ViewModels.PagesVMs;
+using HRIS_Software.Models.Services;
 using HRIS_Software.ViewModels.WindowsVMs;
 using HRIS_Software.Views.Windows;
+using System;
+using System.Data.Entity.Core.EntityClient;
 using System.Windows;
 
 namespace HRIS_Software
@@ -15,23 +17,18 @@ namespace HRIS_Software
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            AuthenticationVM authCtx = new AuthenticationVM();
-            Authentication auth = new Authentication
+            string login = LoginService.StartLogin(out EntityConnectionStringBuilder connectionStringBuilder);
+
+            if (!string.IsNullOrEmpty(login))
             {
-                DataContext = authCtx
-            };
+                BuildContainer(connectionStringBuilder);
 
-            if (auth.ShowDialog() == true)
-            {
-                ContainerBuilder builder = new ContainerBuilder();
-
-                builder.Register(x => new Entities(authCtx.Builder)).AsSelf().InstancePerLifetimeScope();
-
-                _container = builder.Build();
+                MainVM vm = new MainVM(login, _container.Resolve<Entities>());
+                vm.OnLoginChanged += OnLoginChanged;
 
                 Main main = new Main
                 {
-                    DataContext = new MainVM(authCtx.Login, _container.Resolve<Entities>())
+                    DataContext = vm
                 };
 
                 ShutdownMode = ShutdownMode.OnLastWindowClose;
@@ -44,6 +41,19 @@ namespace HRIS_Software
             }
 
             base.OnStartup(e);
+        }
+
+        private void BuildContainer(EntityConnectionStringBuilder connectionStringBuilder)
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.Register(x => new Entities(connectionStringBuilder)).AsSelf().InstancePerLifetimeScope();
+            _container = builder.Build();
+        }
+
+        private void OnLoginChanged(EntityConnectionStringBuilder connectionStringBuilder, Action<Entities> newDB)
+        {
+            BuildContainer(connectionStringBuilder);
+            newDB(_container.Resolve<Entities>());
         }
 
         protected override void OnExit(ExitEventArgs e)

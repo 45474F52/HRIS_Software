@@ -8,6 +8,9 @@
         d:DataContext="{d:DesignInstance Type={x:Type vm:MainVM}}"
         Title="{Binding Title}"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        MinWidth="800"
+        MinHeight="600"
         Height="450"
         Width="800">
 
@@ -21,17 +24,39 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Button Content="Вернуться"
-                HorizontalAlignment="Left"
-                Margin="10 10 0 0"
-                Padding="20 0"
-                Cursor="Hand"
-                FontSize="14"
-                Visibility="{Binding CanGoBack, Converter={StaticResource boolToVis}}"
-                Command="{Binding BackCommand}" />
+        <Grid Margin="10 10 10 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
 
+            <Button Content="Вернуться"
+                    HorizontalAlignment="Left"
+                    MaxHeight="60"
+                    Padding="20 0"
+                    Cursor="Hand"
+                    FontSize="14"
+                    Visibility="{Binding CanGoBack, Converter={StaticResource boolToVis}}"
+                    Command="{Binding BackCommand}"
+                    Style="{StaticResource RoundedBtn}" />
+
+            <Button Grid.Column="1"
+                    Content="Выйти"
+                    HorizontalAlignment="Left"
+                    MaxHeight="60"
+                    Padding="20 0"
+                    Cursor="Hand"
+                    FontSize="14"
+                    ToolTipService.ToolTip="Перезайти другим пользователем"
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.Placement="Mouse"
+                    Command="{Binding LogoutCommand}"
+                    Style="{StaticResource RoundedBtn}" />
+        </Grid>
+        
         <ContentControl Grid.Row="1"
                         Margin="0 10 0 0"
+                        Focusable="False"
                         Content="{Binding CurrentView}" />
     </Grid>
 </Window>

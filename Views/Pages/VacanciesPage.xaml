@@ -13,36 +13,183 @@
              utils:ModalDialogWindowBehaviour.ModalDialogWindow="{Binding ModalDialog}">
     <Grid>
         <ListView ItemsSource="{Binding Vacancies}"
-                  HorizontalContentAlignment="Stretch">
-            
+                  BorderThickness="0"
+                  Focusable="False"
+                  HorizontalContentAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="FocusVisualStyle"
+                            Value="{x:Null}" />
+                    
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type db:Vacancy}">
                     <Button Cursor="Hand"
+                            FontSize="14"
+                            Margin="10"
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ShowResponsesCommand}"
                             CommandParameter="{Binding}">
-                        
-                        <UniformGrid Columns="1"
-                                     Rows="6">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height=".2*" />
+                                <RowDefinition />
+                                <RowDefinition Height=".25*" />
+                            </Grid.RowDefinitions>
 
                             <UniformGrid Columns="2"
-                                         Rows="1">
+                                         Rows="1"
+                                         Margin="0 5 0 10">
 
-                                <TextBlock Text="{Binding Position.PositionName}" />
-                                <TextBlock Text="{Binding Responses.Count}" />
-                            </UniformGrid>
-                            
-                            <TextBlock Text="{Binding Conditions}" />
-                            <TextBlock Text="{Binding Responsibilities}" />
-                            <TextBlock Text="{Binding Requirements}" />
-                            <TextBlock Text="{Binding Other}" />
-
-                            <UniformGrid Columns="2"
-                                         Rows="1">
+                                <TextBlock Text="{Binding Position.PositionName}"
+                                           FontWeight="Bold"
+                                           FontSize="18" />
                                 
+                                <TextBlock FontSize="14"
+                                           TextAlignment="Right">
+                                    
+                                    <Run Text="Откликов:" />
+                                    <Run Text="{Binding Responses.Count, Mode=OneWay}" />
+                                </TextBlock>
+                            </UniformGrid>
+
+                            <StackPanel Grid.Row="1"
+                                        Orientation="Vertical">
+
+                                <TextBlock TextWrapping="Wrap" Margin="0 10">
+                                    <Run Text="Требования"
+                                         FontWeight="Bold" />
+
+                                    <LineBreak />
+                                    <Run Text="{Binding Conditions, Mode=OneWay}" />
+                                </TextBlock>
+
+                                <TextBlock TextWrapping="Wrap" Margin="0 10">
+                                    <Run Text="Обязанности"
+                                         FontWeight="Bold" />
+
+                                    <LineBreak />
+                                    <Run Text="{Binding Responsibilities, Mode=OneWay}" />
+                                </TextBlock>
+
+                                <TextBlock TextWrapping="Wrap" Margin="0 10">
+                                    <Run Text="Условия"
+                                         FontWeight="Bold" />
+                                    
+                                    <LineBreak />
+                                    <Run Text="{Binding Requirements, Mode=OneWay}" />
+                                </TextBlock>
+
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="0 10"
+                                           Text="{Binding Other}" />
+
+                            </StackPanel>
+
+                            <UniformGrid Grid.Row="2"
+                                         Margin="0 10"
+                                         Columns="2"
+                                         Rows="1">
+
+                                <UniformGrid.Resources>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="MinHeight"
+                                                Value="40" />
+                                        <Setter Property="MaxWidth"
+                                                Value="500" />
+                                        <Setter Property="Margin"
+                                                Value="10" />
+                                        <Setter Property="Cursor"
+                                                Value="Hand" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border CornerRadius="10"
+                                                            MinHeight="{TemplateBinding MinHeight}"
+                                                            MaxWidth="{TemplateBinding MaxWidth}"
+                                                            Margin="{TemplateBinding Margin}"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
+
+                                                        <ContentPresenter VerticalAlignment="Center"
+                                                                          HorizontalAlignment="Center" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </UniformGrid.Resources>
+
                                 <Button Content="Edit" />
                                 <Button Content="Delete" />
                             </UniformGrid>
-                        </UniformGrid>
+                        </Grid>
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border CornerRadius="10"
+                                                    Padding="10"
+                                                    Background="Transparent"
+                                                    BorderBrush="Black"
+                                                    BorderThickness="1">
+
+                                                <ContentPresenter VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Style.Triggers>
+
+                                    <Trigger Property="IsEnabled"
+                                             Value="False">
+
+                                        <Setter Property="Opacity"
+                                                Value=".5" />
+                                    </Trigger>
+
+                                    <EventTrigger RoutedEvent="Button.MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To=".7"
+                                                    Duration="0:0:.25" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+
+                                    <EventTrigger RoutedEvent="Button.MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    Duration="0:0:.25" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </DataTemplate>
             </ListView.ItemTemplate>

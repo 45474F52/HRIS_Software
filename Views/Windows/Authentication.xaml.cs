@@ -1,8 +1,6 @@
-﻿using System.Windows;
-
-namespace HRIS_Software.Views.Windows
+﻿namespace HRIS_Software.Views.Windows
 {
-    public partial class Authentication : Window
+    public partial class Authentication
     {
         public Authentication()
         {

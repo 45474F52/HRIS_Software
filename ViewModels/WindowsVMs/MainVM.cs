@@ -1,16 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity.Core.EntityClient;
 using HRIS_Software.Core;
 using HRIS_Software.Models.Utils;
 using HRIS_Software.Models.Database;
+using HRIS_Software.Models.Services;
 using HRIS_Software.ViewModels.PagesVMs;
 
 namespace HRIS_Software.ViewModels.WindowsVMs
 {
     internal sealed class MainVM : BaseVM
     {
-        private readonly Entities _db;
+        public delegate void LoginChanged(EntityConnectionStringBuilder connectionStringBuilder, Action<Entities> newDB);
+        public event LoginChanged OnLoginChanged;
+
+        private Entities _db;
         private readonly CurrentViewService _currentViewService;
-        private readonly Stack<BaseVM> _views = new Stack<BaseVM>();
+        private readonly Stack<BaseVM> _navigationHistory = new Stack<BaseVM>();
 
         public MainVM(string login, Entities db)
         {
@@ -19,19 +25,40 @@ namespace HRIS_Software.ViewModels.WindowsVMs
             Title = "Human Resources Information System";
 
             Login = login;
-            OnPropertyChanged(nameof(Login));
 
             _currentViewService = new CurrentViewService(value => SetView(value));
 
             SetViewByLogin(login);
 
             BackCommand = new RelayCommand(() => GoBack(), () => CanGoBack);
+            LogoutCommand = new RelayCommand(() =>
+            {
+                string newLogin = LoginService.StartLogin(out var connectionStringBuilder);
+
+                if (!string.IsNullOrEmpty(newLogin))
+                {
+                    Login = newLogin;
+                    OnLoginChanged?.Invoke(connectionStringBuilder, newDB => _db = newDB);
+                    SetViewByLogin(newLogin);
+                }
+            });
         }
 
         public RelayCommand BackCommand { get; }
+        public RelayCommand LogoutCommand { get; }
 
-        public string Login { get; }
-        public bool CanGoBack => _views.Count > 1;
+        public bool CanGoBack => _navigationHistory.Count > 1;
+
+        private string _login;
+        public string Login
+        {
+            get => _login;
+            private set
+            {
+                _login = value;
+                OnPropertyChanged();
+            }
+        }
 
         private BaseVM _currentView;
         public BaseVM CurrentView
@@ -51,6 +78,8 @@ namespace HRIS_Software.ViewModels.WindowsVMs
 
         private void SetViewByLogin(string login)
         {
+            _navigationHistory.Clear();
+
             switch (login)
             {
                 case "HRManager":
@@ -77,17 +106,17 @@ namespace HRIS_Software.ViewModels.WindowsVMs
         {
             if (CurrentView != view)
             {
-                _views.Push(view);
+                _navigationHistory.Push(view);
                 CurrentView = view;
             }
         }
 
         private void GoBack()
         {
-            if (_views.Count > 0)
+            if (_navigationHistory.Count > 0)
             {
-                _ = _views.Pop();
-                CurrentView = _views.Peek();
+                _ = _navigationHistory.Pop();
+                CurrentView = _navigationHistory.Peek();
             }
         }
     }

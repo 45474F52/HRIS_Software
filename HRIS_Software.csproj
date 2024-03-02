@@ -192,6 +192,7 @@
     <Compile Include="Models\ModalDialogs\ShowResponsesWindow.xaml.cs">
       <DependentUpon>ShowResponsesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Services\LoginService.cs" />
     <Compile Include="Models\Utils\CurrentViewService.cs" />
     <Compile Include="Models\Utils\DialogCloser.cs" />
     <Compile Include="Models\Utils\ModalDialogWindowBehaviour.cs" />
@@ -321,6 +322,12 @@
       <DependentUpon>HRIS_Model.edmx</DependentUpon>
       <LastGenOutput>HRIS_Model.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Images\Employees.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Vacancy.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\Logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

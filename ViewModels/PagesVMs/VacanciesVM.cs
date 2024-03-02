@@ -4,7 +4,6 @@ using HRIS_Software.Models.ModalDialogs;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Linq;
 using System.Windows.Threading;
 
 namespace HRIS_Software.ViewModels.PagesVMs
@@ -15,9 +14,7 @@ namespace HRIS_Software.ViewModels.PagesVMs
         {
             Title = "Вакансии";
 
-            ShowResponsesCommand = new RelayCommand<Vacancy>(
-                vacancy => ModalDialog = new ShowResponsesVM(vacancy),
-                vacancy => vacancy.Responses != null && vacancy.Responses.Any());
+            ShowResponsesCommand = new RelayCommand<Vacancy>(vacancy => ModalDialog = new ShowResponsesVM(vacancy));
 
             Dispatcher.CurrentDispatcher.Invoke(async () =>
             {

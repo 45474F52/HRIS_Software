@@ -25,11 +25,16 @@
             <RowDefinition Height=".25*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Human Resources Information System"
-                   VerticalAlignment="Center"
+        <TextBlock VerticalAlignment="Center"
                    TextAlignment="Center"
-                   FontSize="22"
-                   FontWeight="Bold" />
+                   FontWeight="Light"
+                   FontSize="22">
+            
+            <Run Text="H" FontWeight="Normal" /><Run Text="uman" />
+            <Run Text="R" FontWeight="Normal" /><Run Text="esources" />
+            <Run Text="I" FontWeight="Normal" /><Run Text="nformation" />
+            <Run Text="S" FontWeight="Normal" /><Run Text="ystem" />
+        </TextBlock>
         
         <UniformGrid Grid.Row="1"
                      Rows="2"
@@ -37,6 +42,7 @@
             
             <ex:PlaceholderTextBox x:Name="LoginTB"
                                    Margin="20 30"
+                                   BorderThickness="0 0 0 1"
                                    VerticalContentAlignment="Center"
                                    FontSize="18"
                                    Padding="10"
@@ -45,6 +51,7 @@
 
             <PasswordBox x:Name="PwdBox"
                          Margin="20 30"
+                         BorderThickness="0 0 0 1"
                          VerticalContentAlignment="Center"
                          FontSize="18"
                          Padding="10"
@@ -80,6 +87,7 @@
                                     </Border>
 
                                     <ControlTemplate.Triggers>
+                                        
                                         <Trigger Property="IsEnabled"
                                                  Value="False">
                                             
@@ -90,6 +98,7 @@
                                             <Setter Property="Foreground"
                                                     Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                                         </Trigger>
+                                        
                                         <Trigger Property="utils:PasswordBoxMonitor.PasswordLength"
                                                  Value="0">
                                             
@@ -97,6 +106,7 @@
                                                     Property="Visibility"
                                                     Value="Visible" />
                                         </Trigger>
+                                        
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -107,11 +117,12 @@
         </UniformGrid>
 
         <Button Grid.Row="2"
-                Margin="100 30"
+                Margin="35 12"
                 FontSize="18"
                 FontWeight="Bold"
                 Cursor="Hand"
                 Content="Войти"
-                Command="{Binding LoginCommand}" />
+                Command="{Binding LoginCommand}"
+                Style="{StaticResource RoundedBtn}" />
     </Grid>
 </Window>
