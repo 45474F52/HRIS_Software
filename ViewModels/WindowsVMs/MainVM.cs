@@ -92,7 +92,7 @@ namespace HRIS_Software.ViewModels.WindowsVMs
                     SetView(new EmployessStartVM(_currentViewService, _db));
                     break;
                 case "HRAnalyst":
-                    SetView(new EmployessStartVM(_currentViewService, _db));
+                    SetView(new AnalystStartPageVM(_currentViewService, _db));
                     break;
                 case "Administrator":
                     SetView(new EmployessStartVM(_currentViewService, _db));
