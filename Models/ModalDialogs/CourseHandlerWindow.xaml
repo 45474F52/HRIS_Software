@@ -1,0 +1,70 @@
+﻿<c:ClearWindow x:Class="HRIS_Software.Models.ModalDialogs.CourseHandlerWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:c="clr-namespace:CustomControls;assembly=CustomControls"
+               xmlns:local="clr-namespace:HRIS_Software.Models.ModalDialogs"
+               xmlns:utils="clr-namespace:HRIS_Software.Models.Utils"
+               mc:Ignorable="d"
+               d:DataContext="{d:DesignInstance Type={x:Type local:CourseHandlerVM}}"
+               Title="{Binding Title}"
+               utils:DialogCloser.DialogResult="{Binding DialogResult}"
+               Background="WhiteSmoke"
+               SetShadow="True"
+               CornerRadius="20"
+               ResizeBorderThickness="0"
+               ResizeMode="CanMinimize"
+               Topmost="True"
+               WindowStartupLocation="CenterScreen"
+               Height="450"
+               Width="600">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height=".2*" />
+        </Grid.RowDefinitions>
+
+        <UniformGrid Margin="0 20"
+                     Columns="1"
+                     Rows="3">
+
+            <UniformGrid.Resources>
+                <Style TargetType="{x:Type c:PlaceholderTextBox}">
+                    <Setter Property="FontSize"
+                            Value="16" />
+                    <Setter Property="MaxWidth"
+                            Value="400" />
+                    <Setter Property="MaxHeight"
+                            Value="60" />
+                    <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+                    <Setter Property="Padding"
+                            Value="5 0" />
+                </Style>
+            </UniformGrid.Resources>
+
+            <c:PlaceholderTextBox Placeholder="Название:"
+                                  Text="{Binding Parameter.CourseName}" />
+            
+            <c:PlaceholderTextBox Placeholder="Время прохождения (в ч.):"
+                                  Text="{Binding Parameter.DurationInHours}" />
+            
+            <c:PlaceholderTextBox Placeholder="Цена:"
+                                  Text="{Binding Parameter.Cost}" />
+        </UniformGrid>
+
+        <Button Grid.Row="1"
+                Focusable="True"
+                Padding="150 0"
+                HorizontalAlignment="Center"
+                Margin="0 5"
+                Cursor="Hand"
+                FontSize="18"
+                FontWeight="Bold"
+                Content="Сохранить"
+                Style="{StaticResource RoundedBtn}"
+                Command="{Binding SaveCommand}" />
+    </Grid>
+</c:ClearWindow>

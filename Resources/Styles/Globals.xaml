@@ -8,6 +8,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border CornerRadius="10"
+                            MinHeight="{TemplateBinding MinHeight}"
+                            MinWidth="{TemplateBinding MinWidth}"
+                            Height="{TemplateBinding Height}"
+                            Width="{TemplateBinding Width}"
+                            MaxHeight="{TemplateBinding MaxHeight}"
+                            MaxWidth="{TemplateBinding MaxWidth}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             Margin="{TemplateBinding Margin}"
                             Padding="{TemplateBinding Padding}"
@@ -71,6 +77,88 @@
 
         </Style.Triggers>
 
+    </Style>
+
+    <Style TargetType="{x:Type ScrollBar}">
+        
+        <Style.Resources>
+            <LinearGradientBrush x:Key="vertical"
+                                 StartPoint="0,0"
+                                 EndPoint="1,0">
+                
+                <GradientStop Color="Transparent"
+                              Offset="0" />
+                <GradientStop Color="Transparent"
+                              Offset=".7" />
+                <GradientStop Color="White"
+                              Offset=".75" />
+                <GradientStop Color="White"
+                              Offset="1" />
+            </LinearGradientBrush>
+            
+            <LinearGradientBrush x:Key="horizontal"
+                                 StartPoint="0,0"
+                                 EndPoint="0,1">
+                
+                <GradientStop Color="Transparent"
+                              Offset="0" />
+                <GradientStop Color="Transparent"
+                              Offset=".7" />
+                <GradientStop Color="White"
+                              Offset=".75" />
+                <GradientStop Color="White"
+                              Offset="1" />
+            </LinearGradientBrush>
+        </Style.Resources>
+        
+        <Style.Triggers>
+            
+            <Trigger Property="Orientation"
+                     Value="Horizontal">
+                
+                <Setter Property="OpacityMask"
+                        Value="{DynamicResource horizontal}" />
+            </Trigger>
+            
+            <Trigger Property="Orientation"
+                     Value="Vertical">
+                
+                <Setter Property="OpacityMask"
+                        Value="{DynamicResource vertical}" />
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="0"
+                                             Duration="0:0:.2"
+                                             Storyboard.TargetProperty="(OpacityMask).GradientStops[1].Offset" />
+                            <DoubleAnimation To="0"
+                                             Duration="0:0:.2"
+                                             Storyboard.TargetProperty="(OpacityMask).GradientStops[2].Offset" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="0.75"
+                                             BeginTime="0:0:.5"
+                                             Duration="0:0:.2"
+                                             Storyboard.TargetProperty="(OpacityMask).GradientStops[1].Offset" />
+                            <DoubleAnimation To="0.75"
+                                             BeginTime="0:0:.5"
+                                             Duration="0:0:.2"
+                                             Storyboard.TargetProperty="(OpacityMask).GradientStops[2].Offset" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

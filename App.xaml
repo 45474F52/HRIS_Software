@@ -10,6 +10,8 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Styles/Globals.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/FilterItems.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/DynamicItems.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <dialogs:ShowMessage x:Key="{x:Type dialogs:ShowMessageVM}"
@@ -21,6 +23,12 @@
             <dialogs:ShowResponsesWindow x:Key="{x:Type dialogs:ShowResponsesVM}"
                                            x:Shared="False" />
 
+            <dialogs:CourseHandlerWindow x:Key="{x:Type dialogs:CourseHandlerVM}"
+                                         x:Shared="False" />
+
+            <dialogs:FilterDialogWindow x:Key="{x:Type dialogs:FilterDialogVM}"
+                                        x:Shared="False" />
+
             <DataTemplate DataType="{x:Type p_vm:EmployessStartVM}">
                 <p_views:EmployeesStart />
             </DataTemplate>
@@ -31,6 +39,18 @@
 
             <DataTemplate DataType="{x:Type p_vm:VacanciesVM}">
                 <p_views:VacanciesPage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type p_vm:AnalystStartPageVM}">
+                <p_views:AnalystStartPage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type p_vm:CoursesVM}">
+                <p_views:CoursesPage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type p_vm:SalaryAnalyticsVM}">
+                <p_views:SalaryAnalyticsPage />
             </DataTemplate>
 
         </ResourceDictionary>
