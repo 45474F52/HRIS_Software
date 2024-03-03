@@ -82,6 +82,9 @@
     <Reference Include="LiveChartsCore.SkiaSharpView.WPF, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc92a3e13d40c573, processorArchitecture=MSIL">
       <HintPath>packages\LiveChartsCore.SkiaSharpView.WPF.2.0.0-rc2\lib\net462\LiveChartsCore.SkiaSharpView.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MathNet.Numerics.5.0.0\lib\net48\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -252,7 +255,10 @@
     <Compile Include="Models\ModalDialogs\ShowResponsesWindow.xaml.cs">
       <DependentUpon>ShowResponsesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ObservableChart.cs" />
     <Compile Include="Models\Services\LoginService.cs" />
+    <Compile Include="Models\Utils\AnalyticsHelper.cs" />
+    <Compile Include="Models\Utils\ClusterizationHelper.cs" />
     <Compile Include="Models\Utils\CurrentViewService.cs" />
     <Compile Include="Models\Utils\DialogCloser.cs" />
     <Compile Include="Models\Utils\ModalDialogWindowBehaviour.cs" />
