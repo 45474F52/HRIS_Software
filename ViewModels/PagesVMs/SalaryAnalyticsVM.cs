@@ -2,14 +2,15 @@
 using HRIS_Software.Models;
 using HRIS_Software.Models.Database;
 using HRIS_Software.Models.ModalDialogs;
-using LiveChartsCore;
-using LiveChartsCore.Defaults;
+using HRIS_Software.Models.Utils;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.WPF;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -64,40 +65,50 @@ namespace HRIS_Software.ViewModels.PagesVMs
                 };
 
                 ModalDialog = dialog;
-            }, () => _salaries.Any());
+            }, canExecute: () => _salaries.Any());
 
-            LoadSalaries();
+            SalariesStatisticsChart = new ObservableChart(new CartesianChart());
+            SalariesClustersChart = new ObservableChart(new CartesianChart());
+            SalariesRegressionChart = new ObservableChart(new CartesianChart());
 
-            var salaries = GenerateSalaries()
-                .GroupBy(s => new { s.Date.Month })
-                .Select(g => g.OrderByDescending(s => s.Wage).First())
-                .OrderBy(x => x.Date)
-                .Select(x => new DateTimePoint(x.Date, (double)x.Wage))
-                .ToList();
-
-            XAxes = new Axis[]
-            {
-                new DateTimeAxis(TimeSpan.FromDays(30), date => date.ToString("dd MMMM"))
-            };
-
-            Series = new ISeries[]
-            {
-                new ColumnSeries<DateTimePoint>
-                {
-                    Values = salaries,
-                    EasingFunction = EasingFunctions.BounceInOut,
-                }
-            };
+            LoadSalaries().ContinueWith(task => LoadCharts());
         }
+
         private readonly Random random = new Random();
         private IEnumerable<Salary> GenerateSalaries()
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 100; i++)
             {
                 decimal wage = random.Next(30_000, 100_000);
                 DateTime date = new DateTime(2024, random.Next(1, 13), 1);
-                yield return new Salary { Date = date, Wage = wage };
+                yield return new Salary
+                {
+                    Date = date, Wage = wage,
+                    Employee = new Employee
+                    {
+                        Surname = GetRandomString(5, 10),
+                        FirstName = GetRandomString(10, 20),
+                        Patronymic = GetRandomString(10, 15),
+                        Department = new Department { DepartmentName = GetRandomString(10, 20) },
+                        Position = _db.Positions.Find(random.Next(1, 32)),
+                        ContactData = new ContactData
+                        {
+                            Address = GetRandomString(15, 30),
+                            Email = GetRandomString(25, 35),
+                            Number = "8 (800) 555-35-35"
+                        }
+                    }
+                };
             }
+        }
+
+        private string GetRandomString(int min, int max)
+        {
+            int count = random.Next(min, max);
+            StringBuilder sb = new StringBuilder(count);
+            for (int i = 0; i < count; i++)
+                sb.Append((char)random.Next(32, 64));
+            return sb.ToString();
         }
 
         private Task LoadSalaries()
@@ -105,35 +116,41 @@ namespace HRIS_Software.ViewModels.PagesVMs
             return Application.Current.Dispatcher.Invoke(async () =>
             {
                 _salaries.AddRange(await _db.Salaries.AsNoTracking().ToListAsync());
-                _salaries.Add(new Salary()
-                {
-                    Date = DateTime.Now,
-                    Wage = 50_000M,
-                    Bonus = 2000M,
-                    Deduction = 50M,
-                    Employee = new Employee()
-                    {
-                        Surname = "Abo",
-                        FirstName = "Bus",
-                        Patronymic = "Sergeevitch",
-                        Department = new Department() { DepartmentName = "Microsoft" },
-                        Position = new Position() { PositionName = "Director" },
-                        ContactData = new ContactData()
-                        {
-                            Address = "Unknown",
-                            Email = "danchin276@mail.ru",
-                            Number = "89773162628"
-                        }
-                    }
-                });
+                _salaries.AddRange(GenerateSalaries()); // TEST
                 DropFilters();
+            });
+        }
+
+        private Task LoadCharts()
+        {
+            return Application.Current.Dispatcher.Invoke(async () =>
+            {
+                SalariesStatisticsChart.Series = AnalyticsHelper.GetSalariesPerDateChartData(_salaries, out var xAxes);
+                SalariesStatisticsChart.XAxes = xAxes;
+
+                List<String> positions = await _db.Positions.OrderBy(p => p.Id).AsNoTracking().Select(p => p.PositionName).ToListAsync();
+
+                SalariesClustersChart.Series = AnalyticsHelper.GetSalaryClusterizationChartData(_salaries);
+                SalariesClustersChart.XAxes = new Axis[]
+                {
+                    new Axis
+                    {
+                        IsVisible = false,
+                        ForceStepToMin = true,
+                        MinStep = 1,
+                        Labels = positions
+                    }
+                };
+
+                SalariesRegressionChart.Series = AnalyticsHelper.ApplyLinearRegressionToSalaries(_salaries, out var xAxes2);
+                SalariesRegressionChart.XAxes = xAxes2;
             });
         }
 
         public RelayCommand UpdateCommand { get; }
         public RelayCommand FilterCommand { get; }
 
-        public decimal AverageSalary => FilteredSalaries.Average(s => s.Wage);
+        public decimal AverageSalary => FilteredSalaries?.Average(s => s.Wage) ?? default;
 
         private BaseVM _modalDialog;
         public BaseVM ModalDialog
@@ -157,27 +174,9 @@ namespace HRIS_Software.ViewModels.PagesVMs
             }
         }
 
-        private ISeries[] _series;
-        public ISeries[] Series
-        {
-            get => _series;
-            private set
-            {
-                _series = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private Axis[] _xAxes;
-        public Axis[] XAxes
-        {
-            get => _xAxes;
-            private set
-            {
-                _xAxes = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableChart SalariesStatisticsChart { get; }
+        public ObservableChart SalariesClustersChart { get; }
+        public ObservableChart SalariesRegressionChart { get; }
 
         private void ApplyFilters(string number, string email, string name, string date, bool datesBefore, bool datesInclusive)
         {
