@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:converters="clr-namespace:HRIS_Software.Models.Converters">
 
     <DataTemplate x:Key="BooleanItemTemplate">
@@ -174,6 +175,38 @@
                            Opacity=".5" />
             </StackPanel>
         </Button>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DateItemTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical"
+                        Margin="0 10">
+
+                <TextBlock Text="{Binding Title}"
+                           TextAlignment="Left"
+                           FontWeight="DemiBold"
+                           FontSize="18" />
+
+                <TextBlock Text="{Binding Description}"
+                           TextAlignment="Left"
+                           TextWrapping="Wrap"
+                           FontSize="14"
+                           FontWeight="Light"
+                           Margin="0 5"
+                           Opacity=".5" />
+            </StackPanel>
+
+            <Calendar Grid.Column="1"
+                      Background="Transparent"
+                      DisplayDate="{x:Static sys:DateTime.Now}"
+                      SelectedDate="{Binding Value}">
+            </Calendar>
+        </Grid>
     </DataTemplate>
 
 </ResourceDictionary>

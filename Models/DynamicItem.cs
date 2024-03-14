@@ -28,8 +28,11 @@ namespace HRIS_Software.Models
         [JsonConverter(typeof(TypeJsonConverter))]
         public Type Type { get; }
 
-        public DynamicItem(string title, string description, Type type, dynamic value = null)
+        public DynamicItem(string title, string description, Type type, dynamic value)
         {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value), "Параметр \"value\" не может быть равным null");
+
             Title = title;
             Description = description;
             Type = type;
@@ -74,6 +77,6 @@ namespace HRIS_Software.Models
         }
 
         private bool IsEquals(in dynamic value, in dynamic target) =>
-            Type.IsEnum && value != null ? (int)target == (int)value : target.Equals(value);
+            Type.IsEnum ? (int)target == (int)value : target.Equals(value);
     }
 }

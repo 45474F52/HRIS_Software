@@ -27,51 +27,19 @@ namespace HRIS_Software.ViewModels.PagesVMs
 
             Title = "Аналитика зарплат";
 
-            UpdateCommand = new RelayCommand(async () => await LoadSalaries());
-
-            FilterCommand = new RelayCommand(() =>
+            UpdateCommand = new RelayCommand(async () =>
             {
-                IEnumerable<DynamicItem> filterItems = new DynamicItem[]
-                {
-                    new DynamicItem("Номер", "Номер телефона сотрудника", typeof(string), ""),
-                    new DynamicItem("Почта", "Электронная почта сотрудника", typeof(string), ""),
-                    new DynamicItem("ФИО", "Полное имя сотрудника", typeof(string), ""),
-                    new DynamicItem("Дата", "Дата получения зарплаты", typeof(string), ""),
-                    new DynamicItem("Искать даты ДО",
-                        "Получить только те зарплаты, где дата получения — ДО указанной", typeof(bool), false),
-                    new DynamicItem("Искать даты ВКЛЮЧИТЕЛЬНО",
-                        "Получить только те зарплаты, где дата получения включает указанную", typeof(bool), false),
-                };
+                _salaries.Clear();
+                await LoadData().ContinueWith(task => LoadCharts());
+            });
 
-                DataForFilters filtersData = new DataForFilters(filterItems);
-
-                FilterDialogVM dialog = new FilterDialogVM("Фильтрация списка зарплат", filtersData);
-                dialog.OnApplyFilters += applied =>
-                {
-                    if (applied)
-                    {
-                        ApplyFilters(
-                            number: filtersData.GetValue<string>(0),
-                            email: filtersData.GetValue<string>(1),
-                            name: filtersData.GetValue<string>(2),
-                            date: filtersData.GetValue<string>(3),
-                            datesBefore: filtersData.GetValue<bool>(4),
-                            datesInclusive: filtersData.GetValue<bool>(5));
-                    }
-                    else
-                    {
-                        DropFilters();
-                    }
-                };
-
-                ModalDialog = dialog;
-            }, canExecute: () => _salaries.Any());
+            DropFiltersCommand = new RelayCommand(ReloadFilteredCollection);
 
             SalariesStatisticsChart = new ObservableChart(new CartesianChart());
             SalariesClustersChart = new ObservableChart(new CartesianChart());
             SalariesRegressionChart = new ObservableChart(new CartesianChart());
 
-            LoadSalaries().ContinueWith(task => LoadCharts());
+            LoadData().ContinueWith(task => LoadCharts());
         }
 
         private readonly Random random = new Random();
@@ -79,8 +47,8 @@ namespace HRIS_Software.ViewModels.PagesVMs
         {
             for (int i = 0; i < 100; i++)
             {
-                decimal wage = random.Next(30_000, 100_000);
-                DateTime date = new DateTime(2024, random.Next(1, 13), 1);
+                decimal wage = random.Next(35_000, 120_000);
+                DateTime date = new DateTime(2024, random.Next(1, 13), random.Next(1, 31));
                 yield return new Salary
                 {
                     Date = date, Wage = wage,
@@ -89,7 +57,7 @@ namespace HRIS_Software.ViewModels.PagesVMs
                         Surname = GetRandomString(5, 10),
                         FirstName = GetRandomString(10, 20),
                         Patronymic = GetRandomString(10, 15),
-                        Department = new Department { DepartmentName = GetRandomString(10, 20) },
+                        Department = _db.Departments.Find(random.Next(1, 10)),
                         Position = _db.Positions.Find(random.Next(1, 32)),
                         ContactData = new ContactData
                         {
@@ -107,17 +75,27 @@ namespace HRIS_Software.ViewModels.PagesVMs
             int count = random.Next(min, max);
             StringBuilder sb = new StringBuilder(count);
             for (int i = 0; i < count; i++)
-                sb.Append((char)random.Next(32, 64));
+                sb.Append((char)random.Next(97, 122));
             return sb.ToString();
         }
 
-        private Task LoadSalaries()
+        private Task LoadData()
         {
             return Application.Current.Dispatcher.Invoke(async () =>
             {
                 _salaries.AddRange(await _db.Salaries.AsNoTracking().ToListAsync());
                 _salaries.AddRange(GenerateSalaries()); // TEST
-                DropFilters();
+
+                List<Department> departments = await _db.Departments.OrderBy(d => d.Id).AsNoTracking().ToListAsync();
+                departments.Insert(0, new Department { Id = 0, DepartmentName = string.Empty });
+                Departments = departments;
+                OnPropertyChanged(nameof(Departments));
+                List<Position> positions = await _db.Positions.OrderBy(p => p.Id).AsNoTracking().ToListAsync();
+                positions.Insert(0, new Position { Id = 0, PositionName = string.Empty });
+                Positions = positions;
+                OnPropertyChanged(nameof(Positions));
+
+                ReloadFilteredCollection();
             });
         }
 
@@ -148,7 +126,41 @@ namespace HRIS_Software.ViewModels.PagesVMs
         }
 
         public RelayCommand UpdateCommand { get; }
-        public RelayCommand FilterCommand { get; }
+        public RelayCommand DropFiltersCommand { get; }
+
+        public IEnumerable<Department> Departments { get; private set; }
+
+        private int _selectedDepartment;
+        public int SelectedDepartment
+        {
+            get => _selectedDepartment;
+            set
+            {
+                if (value != _selectedDepartment)
+                {
+                    _selectedDepartment = value;
+                    OnPropertyChanged();
+                    Filter();
+                }
+            }
+        }
+
+        public IEnumerable<Position> Positions { get; private set; }
+
+        private int _selectedPosition;
+        public int SelectedPosition
+        {
+            get => _selectedPosition;
+            set
+            {
+                if (value != _selectedPosition)
+                {
+                    _selectedPosition = value;
+                    OnPropertyChanged();
+                    Filter();
+                }
+            }
+        }
 
         public decimal AverageSalary => FilteredSalaries?.Average(s => s.Wage) ?? default;
 
@@ -171,6 +183,7 @@ namespace HRIS_Software.ViewModels.PagesVMs
             {
                 _filteredSalaries = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(AverageSalary));
             }
         }
 
@@ -178,7 +191,30 @@ namespace HRIS_Software.ViewModels.PagesVMs
         public ObservableChart SalariesClustersChart { get; }
         public ObservableChart SalariesRegressionChart { get; }
 
-        private void ApplyFilters(string number, string email, string name, string date, bool datesBefore, bool datesInclusive)
+        private void Filter()
+        {
+            if (SelectedDepartment > 0 || SelectedPosition > 0)
+            {
+                HashSet<Salary> salaries = new HashSet<Salary>();
+
+                if (SelectedDepartment > 0)
+                    salaries.UnionWith(_salaries.Where(s => s.Employee.Position.Id == SelectedPosition));
+                if (SelectedPosition > 0) // в смысле ноль блять? был не ноль а стал ноль     сука
+                    salaries.UnionWith(_salaries.Where(s => s.Employee.Department.Id == SelectedDepartment));
+
+                FilteredSalaries.Clear();
+
+                foreach (Salary salary in salaries)
+                {
+                    FilteredSalaries.Add(salary);
+                }
+
+                OnPropertyChanged(nameof(FilteredSalaries));
+            }
+            else ReloadFilteredCollection();
+        }
+
+        private void ApplyFilters(string number, string email, string name, DateTime date, bool datesBefore, bool datesInclusive)
         {
             HashSet<Salary> salaries = new HashSet<Salary>();
 
@@ -200,16 +236,13 @@ namespace HRIS_Software.ViewModels.PagesVMs
                     _salaries.Where(s => s.Employee.FullName.ToLower().Contains(name.ToLower())));
             }
 
-            if (DateTime.TryParse(date, out DateTime value))
+            if (datesBefore)
             {
-                if (datesBefore)
-                {
-                    salaries.UnionWith(_salaries.Where(s => datesInclusive ? s.Date >= value : s.Date > value));
-                }
-                else
-                {
-                    salaries.UnionWith(_salaries.Where(s => datesInclusive ? s.Date <= value : s.Date < value));
-                }
+                salaries.UnionWith(_salaries.Where(s => datesInclusive ? s.Date >= date : s.Date > date));
+            }
+            else
+            {
+                salaries.UnionWith(_salaries.Where(s => datesInclusive ? s.Date <= date : s.Date < date));
             }
 
             FilteredSalaries.Clear();
@@ -222,6 +255,6 @@ namespace HRIS_Software.ViewModels.PagesVMs
             OnPropertyChanged(nameof(FilteredSalaries));
         }
 
-        private void DropFilters() => FilteredSalaries = new ObservableCollection<Salary>(_salaries);
+        private void ReloadFilteredCollection() => FilteredSalaries = new ObservableCollection<Salary>(_salaries);
     }
 }

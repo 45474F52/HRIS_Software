@@ -38,6 +38,10 @@ namespace HRIS_Software.Models.Converters
                 {
                     resource = Application.Current.TryFindResource("ButtonItemTemplate");
                 }
+                else if (type.Equals(typeof(DateTime)))
+                {
+                    resource = Application.Current.TryFindResource("DateItemTemplate");
+                }
                 else
                 {
                     throw new InvalidOperationException($"Не удалось найти ресурс для типа \"{type.FullName}\"");

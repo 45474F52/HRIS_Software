@@ -24,7 +24,7 @@ namespace HRIS_Software.Models.Utils
                 .GroupBy(salary => new { salary.Date.Month })
                 .Select(group => group.OrderByDescending(salary => salary.Wage).First())
                 .OrderBy(salary => salary.Date)
-                .Select(salary => new DateTimePoint(salary.Date, (double)salary.Wage))
+                .Select(salary => new DateTimePoint(new DateTime(salary.Date.Year, salary.Date.Month, 1), (double)salary.Wage))
                 .ToList();
 
             return new ISeries[]

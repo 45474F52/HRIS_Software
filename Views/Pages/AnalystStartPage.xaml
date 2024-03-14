@@ -7,162 +7,237 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type={x:Type vm:AnalystStartPageVM}}"
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             Background="{StaticResource BackBrush}">
 
-    <Grid Background="White">
+    <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height=".7*" />
         </Grid.RowDefinitions>
 
-        <Button Margin="100 25"
-                MaxHeight="350"
-                MaxWidth="950"
-                FocusVisualStyle="{x:Null}"
-                Cursor="Hand"
-                Command="{Binding CoursesCommand}">
-            
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border CornerRadius="30"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        Margin="{TemplateBinding Margin}"
-                                        Padding="{TemplateBinding Padding}">
+        <Grid.Resources>
+            <Storyboard x:Key="btn_focus_enter">
+                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(Brush.Opacity)"
+                                 To="1"
+                                 Duration="0:0:.15" />
+                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).(DropShadowEffect.Opacity)"
+                                 To=".65"
+                                 Duration="0:0:.15" />
+            </Storyboard>
 
-                                    <Border.Effect>
-                                        <DropShadowEffect BlurRadius="50"
-                                                          Color="#00AAFF"
-                                                          Direction="315"
-                                                          Opacity=".65"
-                                                          ShadowDepth="0"
-                                                          RenderingBias="Performance" />
-                                    </Border.Effect>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
+            <Storyboard x:Key="btn_focus_exit">
+                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(Brush.Opacity)"
+                                 To=".8"
+                                 Duration="0:0:.35" />
+                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).(DropShadowEffect.Opacity)"
+                                 To="0"
+                                 Duration="0:0:.35" />
+            </Storyboard>
+            
+            <Style TargetType="{x:Type Button}">
+
+                <Setter Property="FocusVisualStyle"
+                        Value="{x:Null}" />
+                <Setter Property="Cursor"
+                        Value="Hand" />
+                <Setter Property="Margin"
+                        Value="20" />
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border CornerRadius="10"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="0">
+                                
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+
+                    <Trigger Property="IsFocused"
+                             Value="True">
+
+                        <Trigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource btn_focus_enter}" />
+                        </Trigger.EnterActions>
+
+                        <Trigger.ExitActions>
+                            <BeginStoryboard Storyboard="{StaticResource btn_focus_exit}" />
+                        </Trigger.ExitActions>
+                    </Trigger>
+
+                    <EventTrigger RoutedEvent="Button.MouseEnter">
+                        <BeginStoryboard Storyboard="{StaticResource btn_focus_enter}" />
+                    </EventTrigger>
+
+                    <EventTrigger RoutedEvent="Button.MouseLeave">
+                        <BeginStoryboard Storyboard="{StaticResource btn_focus_exit}" />
+                    </EventTrigger>
+
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+
+        <Button Margin="100 25"
+                Padding="30 0 0 0"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                Command="{Binding CoursesCommand}">
+
+            <Button.Background>
+                <ImageBrush Opacity=".8"
+                            ImageSource="/Resources/Images/card_bg_1.jpg" />
+            </Button.Background>
+
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="50"
+                                  Color="#f5f5f5"
+                                  Direction="315"
+                                  Opacity="0"
+                                  ShadowDepth="0"
+                                  RenderingBias="Performance" />
+            </Button.Effect>
+
+            <Button.Content>
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height=".5*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock FontSize="18"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"
+                               Padding="0 10"
+                               Foreground="#DEDEDE">
+                        
+                        <Run Text="Курсы"
+                             Foreground="White"
+                             FontWeight="Bold"
+                             FontSize="32" />
+                        <LineBreak />
+                        <LineBreak />
+                        <Run Text="Создание, оформление и размещение" />
+                        <LineBreak />
+                        <Run Text="курсов для различных специальностей" />
+                    </TextBlock>
+
+                    <TextBlock Grid.Row="1"
+                               Margin="10"
+                               VerticalAlignment="Center"
+                               Foreground="White"
+                               Text="⇨"
+                               FontSize="28"
+                               FontWeight="Bold" />
+                </Grid>
+            </Button.Content>
         </Button>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+        <UniformGrid Grid.Row="1"
+                     Columns="3">
 
-            <Button Margin="20"
-                    MaxHeight="350"
-                    MaxWidth="350"
-                    FocusVisualStyle="{x:Null}"
-                    Cursor="Hand"
-                    Command="{Binding CourseAnalysisCommand}">
+            <Button Command="{Binding CourseAnalysisCommand}">
 
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border CornerRadius="30"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Margin="{TemplateBinding Margin}"
-                                            Padding="{TemplateBinding Padding}">
+                <Button.Background>
+                    <LinearGradientBrush Opacity=".8"
+                                         StartPoint="0,1"
+                                         EndPoint="1,1">
+                        <GradientStop Color="#f5f5f5" Offset="0" />
+                        <GradientStop Color="#024732" Offset=".5" />
+                    </LinearGradientBrush>
+                </Button.Background>
+                
+                <Button.Effect>
+                    <DropShadowEffect BlurRadius="50"
+                                      Color="#f5f5f5"
+                                      Direction="315"
+                                      Opacity="0"
+                                      ShadowDepth="0"
+                                      RenderingBias="Performance" />
+                </Button.Effect>
 
-                                        <Border.Effect>
-                                            <DropShadowEffect BlurRadius="50"
-                                                              Color="#FFB800"
-                                                              Direction="315"
-                                                              Opacity=".65"
-                                                              ShadowDepth="0"
-                                                              RenderingBias="Performance" />
-                                        </Border.Effect>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
+                <Button.Content>
+                    <TextBlock FontSize="32"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap"
+                               Foreground="White"
+                               Text="Аналитика курсов" />
+                </Button.Content>
             </Button>
 
             <Button Grid.Column="1"
-                    Margin="20"
-                    MaxHeight="350"
-                    MaxWidth="350"
-                    FocusVisualStyle="{x:Null}"
-                    Cursor="Hand"
                     Command="{Binding SalaryAnalyticsCommand}">
 
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border CornerRadius="30"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Margin="{TemplateBinding Margin}"
-                                            Padding="{TemplateBinding Padding}">
+                <Button.Background>
+                    <LinearGradientBrush Opacity=".8"
+                                         StartPoint="0,1"
+                                         EndPoint="1,1">
+                        <GradientStop Color="#024732" Offset="0" />
+                    </LinearGradientBrush>
+                </Button.Background>
 
-                                        <Border.Effect>
-                                            <DropShadowEffect BlurRadius="50"
-                                                              Color="#00FF6F"
-                                                              Direction="315"
-                                                              Opacity=".65"
-                                                              ShadowDepth="0"
-                                                              RenderingBias="Performance" />
-                                        </Border.Effect>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
+                <Button.Effect>
+                    <DropShadowEffect BlurRadius="50"
+                                      Color="#f5f5f5"
+                                      Direction="315"
+                                      Opacity="0"
+                                      ShadowDepth="0"
+                                      RenderingBias="Performance" />
+                </Button.Effect>
+
+                <Button.Content>
+                    <TextBlock FontSize="32"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap"
+                               Foreground="White"
+                               Text="Аналитика зарплат" />
+                </Button.Content>
             </Button>
 
             <Button Grid.Column="2"
-                    Margin="20"
-                    MaxHeight="350"
-                    MaxWidth="350"
-                    FocusVisualStyle="{x:Null}"
-                    Cursor="Hand"
                     Command="{Binding WorkingHoursAnalyticsCommand}">
 
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border CornerRadius="30"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Margin="{TemplateBinding Margin}"
-                                            Padding="{TemplateBinding Padding}">
+                <Button.Background>
+                    <LinearGradientBrush Opacity=".8"
+                                         StartPoint="0,1"
+                                         EndPoint="1,1">
+                        <GradientStop Color="#024732" Offset=".5" />
+                        <GradientStop Color="#f5f5f5" Offset="1" />
+                    </LinearGradientBrush>
+                </Button.Background>
 
-                                        <Border.Effect>
-                                            <DropShadowEffect BlurRadius="50"
-                                                              Color="#FF3500"
-                                                              Direction="315"
-                                                              Opacity=".65"
-                                                              ShadowDepth="0"
-                                                              RenderingBias="Performance" />
-                                        </Border.Effect>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
+                <Button.Effect>
+                    <DropShadowEffect BlurRadius="50"
+                                      Color="#f5f5f5"
+                                      Direction="315"
+                                      Opacity="0"
+                                      ShadowDepth="0"
+                                      RenderingBias="Performance" />
+                </Button.Effect>
+
+                <Button.Content>
+                    <TextBlock FontSize="32"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap"
+                               Foreground="White"
+                               Text="Аналитика рабочих часов" />
+                </Button.Content>
             </Button>
-        </Grid>
+        </UniformGrid>
     </Grid>
 </UserControl>

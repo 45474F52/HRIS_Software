@@ -14,11 +14,12 @@
         Title="{Binding Title}"
         Height="700"
         Width="500"
+        Background="{StaticResource BackBrush}"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanMinimize">
 
-    <Grid Background="Transparent">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height=".25*" />
             <RowDefinition />
@@ -42,6 +43,7 @@
             
             <ex:PlaceholderTextBox x:Name="LoginTB"
                                    Margin="20 30"
+                                   Background="Transparent"
                                    BorderThickness="0 0 0 1"
                                    VerticalContentAlignment="Center"
                                    FontSize="18"
@@ -52,6 +54,7 @@
             <PasswordBox x:Name="PwdBox"
                          Margin="20 30"
                          BorderThickness="0 0 0 1"
+                         Background="Transparent"
                          VerticalContentAlignment="Center"
                          FontSize="18"
                          Padding="10"
@@ -118,11 +121,10 @@
 
         <Button Grid.Row="2"
                 Margin="35 12"
-                FontSize="18"
+                FontSize="22"
                 FontWeight="Bold"
-                Cursor="Hand"
                 Content="Войти"
                 Command="{Binding LoginCommand}"
-                Style="{StaticResource RoundedBtn}" />
+                Style="{StaticResource PrimaryBtn}" />
     </Grid>
 </Window>

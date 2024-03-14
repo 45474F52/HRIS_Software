@@ -6,12 +6,17 @@
              xmlns:vm="clr-namespace:HRIS_Software.ViewModels.PagesVMs"
              xmlns:db="clr-namespace:HRIS_Software.Models.Database"
              xmlns:utils="clr-namespace:HRIS_Software.Models.Utils"
+             xmlns:converters="clr-namespace:HRIS_Software.Models.Converters"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type={x:Type vm:SalaryAnalyticsVM}}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              utils:ModalDialogWindowBehaviour.ModalDialogWindow="{Binding ModalDialog}">
+
+    <UserControl.Resources>
+        <converters:StringToFirstCharConverter x:Key="strToFChar" />
+    </UserControl.Resources>
 
     <ScrollViewer Background="White"
                   HorizontalScrollBarVisibility="Disabled"
@@ -20,152 +25,246 @@
         <StackPanel Orientation="Vertical">
             <!-- Salaries -->
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height=".2*" />
-                    <RowDefinition />
-                    <RowDefinition Height=".1*" />
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.25*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                <UniformGrid Columns="2"
-                             Rows="1">
+                <lvc:CartesianChart MinHeight="400"
+                                    XAxes="{Binding SalariesStatisticsChart.XAxes}"
+                                    Series="{Binding SalariesStatisticsChart.Series}" />
 
-                    <UniformGrid.Resources>
-                        <Style TargetType="{x:Type Button}"
-                               BasedOn="{StaticResource RoundedBtn}">
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".2*" />
+                        <RowDefinition />
+                        <RowDefinition Height=".1*" />
+                    </Grid.RowDefinitions>
 
-                            <Setter Property="MaxWidth"
-                                    Value="350" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                            <Setter Property="Margin"
-                                    Value="10" />
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height=".5*" />
+                        </Grid.RowDefinitions>
 
-                            <Setter Property="Padding"
-                                    Value="0 10" />
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource RoundedBtn}">
 
-                            <Setter Property="FontSize"
-                                    Value="16" />
-                        </Style>
-                    </UniformGrid.Resources>
+                                <Setter Property="MaxWidth"
+                                        Value="350" />
 
-                    <Button Content="Обновить"
-                            Command="{Binding UpdateCommand}" />
-                    <Button Content="Фильтрация"
-                            Command="{Binding FilterCommand}" />
-                </UniformGrid>
+                                <Setter Property="Margin"
+                                        Value="10 10 10 5" />
 
-                <ListView Grid.Row="1"
-                          x:Name="SalariesLV"
-                          MaxHeight="500"
-                          Focusable="False"
-                          BorderThickness="0"
-                          Background="Transparent"
-                          HorizontalContentAlignment="Stretch"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          ItemsSource="{Binding FilteredSalaries}">
+                                <Setter Property="Padding"
+                                        Value="0 10" />
 
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}">
-                            <Setter Property="FocusVisualStyle"
-                                    Value="{x:Null}" />
+                                <Setter Property="FontSize"
+                                        Value="16" />
+                            </Style>
 
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                        <ContentPresenter />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
+                            <!--<Style TargetType="{x:Type ComboBox}">
+                                
+                                <Setter Property="MinHeight"
+                                        Value="30" />
+                                
+                                <Setter Property="Margin"
+                                        Value="10 0 10 5" />
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate DataType="{x:Type db:Salary}">
-                            <Border CornerRadius="15"
-                                    Margin="20 10"
-                                    Background="WhiteSmoke"
-                                    BorderThickness=".5"
-                                    BorderBrush="Black">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ComboBox}">
+                                            <Grid>
+                                                <Border CornerRadius="5"
+                                                        Margin="{TemplateBinding Margin}"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        MinWidth="{TemplateBinding MinWidth}"
+                                                        MinHeight="{TemplateBinding MinHeight}"
+                                                        Width="{TemplateBinding Width}"
+                                                        Height="{TemplateBinding Height}"
+                                                        MaxWidth="{TemplateBinding MaxWidth}"
+                                                        MaxHeight="{TemplateBinding MaxHeight}"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
 
-                                <Grid Margin="15">
+                                                    <ContentPresenter
+                                                        IsHitTestVisible="False"
+                                                        Content="{TemplateBinding SelectedItem}"
+                                                        ContentTemplate="{TemplateBinding ItemTemplate}"
+                                                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                        Margin="3 3 23 3"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left" />
+                                                </Border>
+                                                
+                                                <Popup Placement="Bottom"
+                                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                       AllowsTransparency="True"
+                                                       Focusable="False"
+                                                       PopupAnimation="Slide">
+                                                    
+                                                    <Border Background="White"
+                                                            CornerRadius="5"
+                                                            BorderBrush="Gray"
+                                                            BorderThickness="1">
+
+                                                        <ScrollViewer>
+                                                            <ItemsPresenter />
+                                                        </ScrollViewer>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>-->
+                        </Grid.Resources>
+
+                        <Button Content="Обновить"
+                                Command="{Binding UpdateCommand}" />
+                        <Button Grid.Column="1"
+                                Content="Сбросить"
+                                Command="{Binding DropFiltersCommand}" />
+                        
+                        <ComboBox Grid.Row="1"
+                                  SelectedValuePath="Id"
+                                  DisplayMemberPath="DepartmentName"
+                                  ItemsSource="{Binding Departments}"
+                                  SelectedIndex="{Binding SelectedDepartment}" />
+                        <ComboBox Grid.Column="1"
+                                  Grid.Row="1"
+                                  SelectedValuePath="Id"
+                                  DisplayMemberPath="PositionName"
+                                  ItemsSource="{Binding Positions}"
+                                  SelectedIndex="{Binding SelectedPosition}" />
+                    </Grid>
+
+                    <ListView Grid.Row="1"
+                              x:Name="SalariesLV"
+                              MaxHeight="550"
+                              Focusable="False"
+                              BorderThickness="0"
+                              Background="Transparent"
+                              HorizontalContentAlignment="Stretch"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ItemsSource="{Binding FilteredSalaries}">
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="FocusVisualStyle"
+                                        Value="{x:Null}" />
+
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="{x:Type db:Salary}">
+                                <Grid Margin="5">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width=".35*" />
+                                    </Grid.ColumnDefinitions>
+
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height=".5*" />
                                         <RowDefinition />
-                                        <RowDefinition Height=".2*" />
+                                        <RowDefinition Height=".5*" />
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Text="{Binding Date, ConverterCulture=ru-RU}"
-                                               Margin="0 0 0 10"
-                                               FontSize="18"
-                                               FontWeight="DemiBold" />
+                                    <Grid Grid.RowSpan="2"
+                                          Margin="0 0 10 0">
 
-                                    <TextBlock Grid.Row="1"
-                                               Margin="0 0 0 10"
+                                        <Ellipse Fill="WhiteSmoke"
+                                                 Width="50"
+                                                 Height="50" />
+
+                                        <TextBlock FontWeight="Bold"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="18"
+                                                   TextAlignment="Center"
+                                                   Text="{Binding Employee.FirstName, Converter={StaticResource strToFChar}}" />
+                                    </Grid>
+
+                                    <TextBlock Grid.Column="1"
+                                               FontSize="16"
+                                               Text="{Binding Employee.FullName, Mode=OneWay}" />
+
+                                    <TextBlock Grid.Column="1"
+                                               Grid.Row="1"
                                                FontSize="12"
                                                FontWeight="Light">
                                         
-                                        <Run Text="{Binding Employee.FullName, Mode=OneWay}"
-                                             FontWeight="Normal"
-                                             FontSize="16" />
-                                        <LineBreak />
                                         <Run Text="{Binding Employee.Department.DepartmentName}" />
                                         —
                                         <Run Text="{Binding Employee.Position.PositionName}" />
                                     </TextBlock>
 
-                                    <TextBlock Grid.Row="2"
+                                    <TextBlock Grid.Column="2"
                                                FontSize="12"
                                                FontWeight="Light">
                                         
                                         <Run Text="{Binding Wage, StringFormat={}{0:C}, ConverterCulture=ru-RU}"
-                                             FontWeight="Normal"
+                                             FontWeight="DemiBold"
                                              FontSize="16" />
                                         <LineBreak />
                                         <Run Text="{Binding Bonus, StringFormat={}+{0:C}, ConverterCulture=ru-RU}"
-                                              Foreground="ForestGreen" />
-                                        <LineBreak />
+                                             Foreground="ForestGreen" />
                                         <Run Text="{Binding Deduction, StringFormat={}-{0:C}, ConverterCulture=ru-RU}"
-                                              Foreground="Red" />
+                                             Foreground="Red" />
                                     </TextBlock>
+
+                                    <TextBlock Grid.Column="2"
+                                               Grid.Row="1"
+                                               Margin="0 5 0 0"
+                                               Text="{Binding Date, ConverterCulture=ru-RU, StringFormat={}{0:dd MMMM yyyy}}"
+                                               FontSize="12"
+                                               FontWeight="Light" />
                                 </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                <WrapPanel Grid.Row="2"
-                           Margin="10 5"
-                           Orientation="Horizontal">
+                    <WrapPanel Grid.Row="2"
+                               Margin="10 5"
+                               HorizontalAlignment="Center"
+                               Orientation="Horizontal">
 
-                    <TextBlock FontSize="14"
-                               FontWeight="Light">
-                        
-                        <Run Text="Количество записей:" />
-                        <Run Text="{Binding FilteredSalaries.Count, Mode=OneWay}" />
-                    </TextBlock>
-                    
-                    <Border Background="Black"
-                            Margin="20 0"
-                            Width="1"
-                            VerticalAlignment="Stretch" />
+                        <TextBlock FontSize="14"
+                                   FontWeight="Light">
+                            
+                            <Run Text="Количество записей:" />
+                            <Run Text="{Binding FilteredSalaries.Count, Mode=OneWay}" />
+                        </TextBlock>
 
-                    <TextBlock FontSize="14"
-                               FontWeight="Light">
-                        
-                        <Run Text="Средняя ЗП:" />
-                        <Run Text="{Binding AverageSalary, StringFormat={}{0:C}, ConverterCulture=ru-RU, Mode=OneWay}" />
-                    </TextBlock>
-                </WrapPanel>
+                        <Border Background="Black"
+                                Margin="20 0"
+                                Width="1"
+                                VerticalAlignment="Stretch" />
 
+                        <TextBlock FontSize="14"
+                                   FontWeight="Light">
+                            
+                            <Run Text="Средняя ЗП:" />
+                            <Run Text="{Binding AverageSalary, StringFormat={}{0:C}, ConverterCulture=ru-RU, Mode=OneWay}" />
+                        </TextBlock>
+                    </WrapPanel>
+                </Grid>
             </Grid>
-
-            <TextBlock Text="Статистика зарплат"
-                       Margin="10 20 10 10"
-                       FontSize="18"
-                       FontWeight="Bold" />
-
-            <lvc:CartesianChart MinHeight="400"
-                                XAxes="{Binding SalariesStatisticsChart.XAxes}"
-                                Series="{Binding SalariesStatisticsChart.Series}" />
 
             <TextBlock Text="Кластерный анализ"
                        Margin="10 20 10 10"
